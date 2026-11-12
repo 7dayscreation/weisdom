@@ -1,7 +1,12 @@
 <?php
 /**
  * Static HTML Generator for Weisdom Design Build
- * Generates pure static HTML pages ready for GitHub and Cloudflare Pages.
+ * Generates portable static HTML pages that work seamlessly on:
+ * 1. Localhost subfolder (http://localhost/wisdom/index.html)
+ * 2. Direct browser file opening (file:///...)
+ * 3. Local built-in server (php -S localhost:8000)
+ * 4. GitHub Pages (both root and repo subfolder)
+ * 5. Cloudflare Pages & Custom Domain (https://weisdom.co.in)
  */
 
 ini_set('default_charset', 'UTF-8');
@@ -63,7 +68,6 @@ $pages = [
 foreach ($pages as $p) {
     echo "Processing: " . $p['source'] . " -> " . $p['target'] . "\n";
 
-    // Run PHP in sub-process to avoid shared variable pollution
     $phpCode = '
         ini_set("default_charset", "UTF-8");
         $_SERVER["HTTPS"] = "on";
@@ -87,45 +91,46 @@ foreach ($pages as $p) {
         die("Error rendering " . $p['source'] . "\n");
     }
 
-    // Post-processing
-    // 1. Convert internal navigation links to root-relative
-    $internalLinks = [
-        'https://weisdom.co.in/connect/' => '/connect/',
-        'https://weisdom.co.in/ample-living/amenities/' => '/ample-living/amenities/',
-        'https://weisdom.co.in/ample-living/family-life/' => '/ample-living/family-life/',
-        'https://weisdom.co.in/ample-living/' => '/ample-living/',
-        'https://weisdom.co.in/ampleton/' => '/ampleton/',
-        'https://weisdom.co.in/privacy-policy/' => '/privacy-policy/',
-        'https://weisdom.co.in/rera-policy/' => '/rera-policy/',
-        'href="https://weisdom.co.in/"' => 'href="/"',
-        'href="https://weisdom.co.in"' => 'href="/"',
+    // Determine relative prefix based on depth
+    if ($p['rel_dir'] === '') {
+        $rootPrefix = '';
+    } else {
+        $parts = explode('/', trim($p['rel_dir'], '/'));
+        $rootPrefix = str_repeat('../', count($parts));
+    }
+
+    // 1. Convert internal navigation links to portable relative links
+    $linkMap = [
+        'https://weisdom.co.in/connect/' => $rootPrefix . 'connect/',
+        'https://weisdom.co.in/ample-living/amenities/' => $rootPrefix . 'ample-living/amenities/',
+        'https://weisdom.co.in/ample-living/family-life/' => $rootPrefix . 'ample-living/family-life/',
+        'https://weisdom.co.in/ample-living/' => $rootPrefix . 'ample-living/',
+        'https://weisdom.co.in/ampleton/' => $rootPrefix . 'ampleton/',
+        'https://weisdom.co.in/privacy-policy/' => $rootPrefix . 'privacy-policy/',
+        'https://weisdom.co.in/rera-policy/' => $rootPrefix . 'rera-policy/',
+        'href="https://weisdom.co.in/"' => 'href="' . ($rootPrefix !== '' ? $rootPrefix : './') . '"',
+        'href="https://weisdom.co.in"' => 'href="' . ($rootPrefix !== '' ? $rootPrefix : './') . '"',
     ];
 
-    foreach ($internalLinks as $from => $to) {
+    foreach ($linkMap as $from => $to) {
         $rendered = str_replace($from, $to, $rendered);
     }
 
-    // 2. Convert assets src and stylesheet links to root-relative `/assets/`
-    // Protect OpenGraph / Twitter / Schema full URLs first
-    $rendered = preg_replace_callback('/(<meta\s+property="og:image"\s+content=")([^"]+)(")/i', function($m) {
-        return $m[1] . (strpos($m[2], 'http') === 0 ? $m[2] : 'https://weisdom.co.in' . $m[2]) . $m[3];
-    }, $rendered);
-
-    $rendered = preg_replace_callback('/(<meta\s+name="twitter:image"\s+content=")([^"]+)(")/i', function($m) {
-        return $m[1] . (strpos($m[2], 'http') === 0 ? $m[2] : 'https://weisdom.co.in' . $m[2]) . $m[3];
-    }, $rendered);
-
-    // Make local asset tags root-relative
-    $rendered = str_replace('https://weisdom.co.in/assets/', '/assets/', $rendered);
-
-    // Ensure OG/Twitter images keep full domain
-    $rendered = preg_replace('/(<meta\s+property="og:image"\s+content=")\/assets\//i', '$1https://weisdom.co.in/assets/', $rendered);
-    $rendered = preg_replace('/(<meta\s+name="twitter:image"\s+content=")\/assets\//i', '$1https://weisdom.co.in/assets/', $rendered);
-    $rendered = str_replace('"logo": "/assets/images/logo-dark.png"', '"logo": "https://weisdom.co.in/assets/images/logo-dark.png"', $rendered);
-
-    // Ensure canonical has full domain
+    // 2. Make local assets relative while protecting SEO tags
+    // Protect canonical and og:url (always full production URL)
     $rendered = preg_replace('/<link\s+rel="canonical"\s+href="[^"]*"/i', '<link rel="canonical" href="' . $p['canonical'] . '"', $rendered);
     $rendered = preg_replace('/<meta\s+property="og:url"\s+content="[^"]*"/i', '<meta property="og:url" content="' . $p['canonical'] . '"', $rendered);
+
+    // Convert assets URL to relative path
+    $rendered = str_replace('https://weisdom.co.in/assets/', $rootPrefix . 'assets/', $rendered);
+
+    // Ensure OG/Twitter images keep full domain
+    $rendered = preg_replace('/(<meta\s+property="og:image"\s+content=")[^"]*"/i', '$1https://weisdom.co.in/assets/images/logo-dark.png"', $rendered);
+    $rendered = preg_replace('/(<meta\s+name="twitter:image"\s+content=")[^"]*"/i', '$1https://weisdom.co.in/assets/images/logo-dark.png"', $rendered);
+
+    // Keep schema logo absolute
+    $rendered = str_replace('"logo": "' . $rootPrefix . 'assets/images/logo-dark.png"', '"logo": "https://weisdom.co.in/assets/images/logo-dark.png"', $rendered);
+    $rendered = str_replace('"logo": "/assets/images/logo-dark.png"', '"logo": "https://weisdom.co.in/assets/images/logo-dark.png"', $rendered);
 
     // 3. Replace token query string on CSS/JS with version string
     $rendered = preg_replace('/\?token=[a-f0-9]{32}/', '?v=1.0', $rendered);
@@ -144,12 +149,12 @@ foreach ($pages as $p) {
 }';
 
         $replaceFetch = 'const mediaFiles = [
-    "/assets/rendom/about-01.jpg",
-    "/assets/rendom/about-02.jpg",
-    "/assets/rendom/about-03.jpg",
-    "/assets/rendom/about-04.jpg",
-    "/assets/rendom/about-05.jpg",
-    "/assets/rendom/about-06.jpg"
+    "assets/rendom/about-01.jpg",
+    "assets/rendom/about-02.jpg",
+    "assets/rendom/about-03.jpg",
+    "assets/rendom/about-04.jpg",
+    "assets/rendom/about-05.jpg",
+    "assets/rendom/about-06.jpg"
 ];
 
 function loadMedia() {
@@ -157,7 +162,6 @@ function loadMedia() {
         displayMedia(getRandomItem(mediaFiles));
     }
 }';
-        // Normalize line breaks for matching
         $renderedNormalized = str_replace("\r\n", "\n", $rendered);
         $searchFetchNormalized = str_replace("\r\n", "\n", $searchFetch);
         $replaceFetchNormalized = str_replace("\r\n", "\n", $replaceFetch);
@@ -165,7 +169,6 @@ function loadMedia() {
         if (strpos($renderedNormalized, $searchFetchNormalized) !== false) {
             $rendered = str_replace($searchFetchNormalized, $replaceFetchNormalized, $renderedNormalized);
         } else {
-            // Regex fallback
             $rendered = preg_replace('/function\s+loadMedia\(\)\s*\{[^}]*fetch\("rendom\.php"\)[^}]*\}\s*\}/s', $replaceFetch, $rendered);
         }
     }
@@ -174,4 +177,4 @@ function loadMedia() {
     echo "Saved: " . $p['target'] . " (" . strlen($rendered) . " bytes)\n";
 }
 
-echo "All 8 static HTML pages successfully generated!\n";
+echo "All 8 static HTML pages successfully generated with portable relative paths!\n";

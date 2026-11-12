@@ -30,3 +30,4 @@ If you make modifications to any PHP templates or `config.php`, you can regenera
 ```bash
 php generate_static.php
 ```
+
