@@ -1,0 +1,54 @@
+footer {
+    background: #818285 !important;
+}
+
+#menu-inner {
+    height: calc(100% - 40px - 75px);
+    margin-top: calc(50px + 40px);
+}
+.spacer-big.hero-spacer {
+    height: calc(40px + 40px + 10px);
+}
+#hero:not(.hero-big):not(.hero-full) #page-title {
+    padding-top: calc(100px + 40px);
+}
+#hero:not(.hero-big):not(.hero-full) #page-title:not(.title-bottom) {
+    padding-bottom: calc(100px + 40px);
+}
+.sr-button.style-custom {
+    background: #fff !important;
+    color: #ffffff !important;
+}
+.sr-button.style-custom:hover {
+    background: #3964c7 !important;
+    color: #ffffff !important;
+}
+nav#main-nav.underline ul > li > a::after {
+    background: #fff !important;
+}
+.colored {
+    color: #fff !important;
+}
+body,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+textarea,
+input[type="submit"],
+input[type="button"],
+.button,
+button,
+blockquote cite,
+.pagination li a,
+#page-pagination .pagination li.page span,
+#page-pagination .pagination li.page a,
+.sr-button {
+    font-family: "futura-pt";
+}
+
+body {
+    font-weight: 300;
+	background: #000000;
+}

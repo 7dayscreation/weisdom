@@ -1,0 +1,415 @@
+<?php include __DIR__ . '/../config.php'; ?>
+<!doctype html>
+<html class="no-js" lang="en-US">
+<head>
+    <!-- DEFAULT META TAGS -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- ensures IE uses latest rendering engine -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+	<!-- Ampleton TITLE -->
+	<title><?php echo esc(seo('title', 'ampleton')); ?></title>
+	
+	<!-- SEO META TAGS -->
+	<meta name="description" content="<?php echo esc(seo('description', 'ampleton')); ?>">
+	<meta name="keywords" content="<?php echo esc(seo('keywords', 'ampleton')); ?>">
+	<meta name="author" content="<?php echo esc(seo('author')); ?>">
+	<meta name="robots" content="<?php echo esc(seo('robots', 'ampleton')); ?>">
+	<link rel="canonical" href="<?php echo esc(canonical_url('ampleton')); ?>">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:title" content="<?php echo esc(seo('title', 'ampleton')); ?>" />
+	<meta property="og:description" content="<?php echo esc(seo('description', 'ampleton')); ?>" />
+	<meta property="og:image" content="<?php echo esc(seo_image('ampleton')); ?>" />
+	<meta property="og:url" content="<?php echo esc(canonical_url('ampleton')); ?>" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="<?php echo esc($site_name); ?>" />
+
+	<!-- Twitter Card -->
+	<meta name="twitter:title" content="<?php echo esc(seo('title', 'ampleton')); ?>" />
+	<meta name="twitter:description" content="<?php echo esc(seo('description', 'ampleton')); ?>" />
+	<meta name="twitter:image" content="<?php echo esc(seo_image('ampleton')); ?>" />
+	<meta name="twitter:card" content="summary_large_image" />
+	
+	<!-- CSS -->
+	<link rel="stylesheet" href="<?php echo $assets; ?>css/weisdom.css">
+	<link rel="stylesheet" href="<?php echo $assets; ?>css/lightcase.css">
+		
+	<!-- Adobe Fonts -->
+	<link rel="stylesheet" href="https://use.typekit.net/oyq7qxo.css">
+
+	<!-- FAVICON -->
+	<link rel="shortcut icon" href="<?php echo $assets; ?>images/favicon.png" type="image/png">
+	
+	<!-- Search engine verification -->
+	<meta name="google-site-verification" content="<?php echo esc($google_verification); ?>">
+	<meta name="msvalidate.01" content="<?php echo esc($bing_verification); ?>">
+	
+	<!-- Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_analytics_id; ?>"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '<?php echo $google_analytics_id; ?>');
+</script>
+
+	<!-- Google Tag Manager -->
+	<script async src="https://www.googletagmanager.com/gtm.js?id=<?php echo $google_tag_manager_id; ?>"></script>
+
+	<!-- JSON-LD Schema -->
+	<script type="application/ld+json">
+		<?php echo json_encode($schema_organization, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT); ?>
+	</script>
+	
+</head>
+	<body>
+		<!-- PAGE LOADER -->
+		<div id="page-loader" class="text-light show-logo">
+			<span class="loader-icon bullets-jump">
+				<span></span>
+				<span></span>
+				<span></span>
+			</span>
+		</div>
+		<!-- PAGE LOADER -->
+		<!-- PAGE CONTENT -->
+		<div id="page-content">
+			<header id="header" class="header-right">
+				<div class="header-inner clearfix">
+					<!-- LOGO -->
+					<div id="logo" class="logo-right text-dark">
+						<a href="<?php echo url(''); ?>">
+							<img id="dark-logo" src="<?php echo $assets; ?>images/logo-dark.png" srcset="<?php echo $assets; ?>images/logo-dark.png 1x, <?php echo $assets; ?>images/logo-dark.png 2x" alt="Logo Dark">
+							<img id="light-logo" src="<?php echo $assets; ?>images/logo-light.png" srcset="<?php echo $assets; ?>images/logo-light.png 1x, <?php echo $assets; ?>images/logo-light.png 2x" alt="Logo Light">
+						</a>
+					</div>
+					<div id="menu" class="clearfix">
+						<div class="menu-actions">
+							<div class="menu-toggle">
+								<span class="hamburger"></span>
+							</div>
+						</div>
+						<div id="menu-inner"><div class="spacer-small"></div>
+							<nav id="main-nav">
+								<ul>
+									<li><a href="<?php echo url('connect/'); ?>">Connect</a></li>
+									<li><a href="<?php echo url('ample-living/'); ?>">Ample Living</a></li>
+									<li><a href="<?php echo url('ampleton/'); ?>">Ampleton</a></li>
+									<li class="spacer-small menu-spacer"></li>
+									<li><p><a href="<?php echo url('privacy-policy/'); ?>">Privacy Policy</a></p></li>
+									<li><p><a href="<?php echo url('rera-policy/'); ?>">RERA Policy</a></p></li>
+								</ul>
+								<div class="widget align-social">	
+								<ul class="socialmedia-widget">
+									<li class="facebook"><a href="https://www.facebook.com/WeisdomOfficial/" target="_blank" rel="noopener noreferrer"></a></li>
+									<li class="instagram"><a href="https://www.instagram.com/weisdomofficial/" target="_blank" rel="noopener noreferrer"></a></li>
+									<li class="linkedin"><a href="https://www.linkedin.com/company/weisdom-official/" target="_blank" rel="noopener noreferrer"></a></li>
+									<li class="youtube"><a href="https://youtube.com/@weisdomofficials/" target="_blank" rel="noopener noreferrer"></a></li>
+								</ul>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<div id="header-actions">
+						<div class="header-totop">
+							<a class="totop" href="#">
+								<svg class="arrow arrow-top" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 35.35">
+									<path d="M0,16.88a3,3,0,0,0,.16.94,1.51,1.51,0,0,0,.63.78l15,15a2.14,2.14,0,0,0,3.52.08,2.14,2.14,0,0,0-.08-3.52L8.59,19.38H57.5a2.5,2.5,0,1,0,0-5H8.59L19.22,3.59A2.14,2.14,0,0,0,19.3.08a2.14,2.14,0,0,0-3.52.08l-15,15a1.51,1.51,0,0,0-.62.78A3,3,0,0,0,0,16.88Z"></path>
+								</svg>
+							</a>
+						</div>
+					</div>
+				</div>
+				<span class="pseudo-close header-close"></span>
+			</header>
+			<!-- HERO & BODY -->
+			<div id="hero-and-body">
+				<!-- PAGEBODY 1 -->
+				<section id="page-body">
+					<div class="spacer-big"></div>
+					<div class="wrapper-big">
+						<h2 class="align-center title-alt colored">Ampleton</h2>
+						<p class="align-center">Ampleton is an upcoming commercial development by Weisdom, envisioned as a thoughtfully planned business destination.<br>Designed to reflect clarity, efficiency, and long-term usability, Ampleton will bring together well-considered layouts and a<br>professional environment suited for modern businesses. Details to be announced.</p>
+					</div>
+					<div class="spacer-big"></div>
+						<div class="wrapper-big">
+							<div class="column-section clearfix">
+								<div class="column one-third">
+									<div class="feature-text-block">
+										<h4 class="align-center title-alt">51% Green & Open Spaces</h4>
+										<div class="spacer-mini"></div>
+										<p align="center">Over half of the site is thoughtfully reserved for landscaped gardens and open areas, creating a balanced, nature-led environment for the development.</p>
+									</div>
+								</div>
+							<div class="column two-third last-col" style="max-height:800px;">
+								<a href="<?php echo $assets; ?>ampleton/part-2.jpg" class="thumb-hover scale" data-rel="lightcase:gallery1">
+									<img src="<?php echo $assets; ?>ampleton/part-2.jpg" alt="SEO" >
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="spacer-big"></div>
+					<div class="wrapper-big">
+						<div class="custom-slider">
+							<!-- Preloader -->
+							<div class="slider-loader"></div>
+							<img src="<?php echo $assets; ?>ampleton/ground-01.jpg" class="slide active">
+							<img src="<?php echo $assets; ?>ampleton/ground-02.jpg" class="slide">
+							<img src="<?php echo $assets; ?>ampleton/ground-03.jpg" class="slide">
+							<img src="<?php echo $assets; ?>ampleton/ground-04.jpg" class="slide">
+							<img src="<?php echo $assets; ?>ampleton/ground-05.jpg" class="slide">
+							<img src="<?php echo $assets; ?>ampleton/ground-06.jpg" class="slide">
+							<img src="<?php echo $assets; ?>ampleton/ground-07.jpg" class="slide">
+							<img src="<?php echo $assets; ?>ampleton/ground-08.jpg" class="slide">
+						</div>
+					</div>
+					<div class="wrapper-small">
+						<div class="spacer-medium"></div>
+						<p class="align-center">The site planning of Ample Living is based on climate-responsive orientation, efficient block placement, and integrated open spaces. Buildings are arranged to maximize daylight, ventilation, and visual openness, while landscape and zoning create a structured yet peaceful residential environment.</p>
+					</div>
+					
+					<div class="spacer-big"></div>
+					<div class="wrapper-big">
+						<div class="column-section clearfix">
+							<div class="column one-half">
+								<img src="<?php echo $assets; ?>ample/ample-plan.jpg" alt="SEO">
+							</div>
+							<div class="column one-half last-col">
+								<div class="spacer-mini"></div>
+								<h2 class="title-alt" align="center">Ground Floor & First Floor Plans</h2>
+								<p align="center">Unit Plans Illustrating spatial layout and functional flow.</p>
+								<div class="spacer-big"></div>
+								<div class="accordion-container">
+									<div class="accordion-item">
+										<button class="accordion-header">Ground Floor Plans</button>
+										<div class="accordion-content">
+											<div class="columns-v1">
+												<div class="column-v1">
+													<a href="<?php echo $assets; ?>ample/residential-master-plan.jpg" class="thumb-hover scale" data-rel="lightcase:gallery1">
+														<img src="<?php echo $assets; ?>ample/residential-master-plan-thumb.jpg" alt="SEO">
+													</a>
+													<p>Residential Master Plan</p>
+												</div>
+												<div class="column-v1">
+													<a href="<?php echo $assets; ?>ample/ground-floor-plan.jpg" class="thumb-hover scale" data-rel="lightcase:gallery1">
+														<img src="<?php echo $assets; ?>ample/ground-floor-plan-thumb.jpg" alt="SEO">
+													</a>
+													<p>Ground Floor Master Plan</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<button class="accordion-header">1st Floor Plans</button>
+										<div class="accordion-content">
+											<div class="columns-v1">
+												<div class="column-v1">
+													<a href="<?php echo $assets; ?>ample/1-3-5-floor-plans.jpg" class="thumb-hover scale" data-rel="lightcase:gallery1">
+														<img src="<?php echo $assets; ?>ample/1-3-5-floor-plans-thumb.jpg" alt="SEO">
+													</a>
+													<p>1,3,5 Floor Plans</p>
+												</div>
+												<div class="column-v1">
+													<a href="<?php echo $assets; ?>ample/2-4-6-floor-plans.jpg" class="thumb-hover scale" data-rel="lightcase:gallery1">
+														<img src="<?php echo $assets; ?>ample/2-4-6-floor-plans-thumb.jpg" alt="SEO">
+													</a>
+													<p>2,4,6 Floor Plans</p>
+												</div>
+											</div>
+											<div class="columns-v1">
+												<div class="column-v1">
+													<a href="<?php echo $assets; ?>ample/a-1-3-5-floor-plan.jpg" class="thumb-hover scale" data-rel="lightcase:gallery1">
+														<img src="<?php echo $assets; ?>ample/a-1-3-5-floor-plan-thumb.jpg" alt="SEO">
+													</a>
+													<p>1,3,5 Floor Plans - 5BHK</p>
+												</div>
+												<div class="column-v1">
+													<a href="<?php echo $assets; ?>ample/a-2-4-6-floor-plan.jpg" class="thumb-hover scale" data-rel="lightcase:gallery1">
+														<img src="<?php echo $assets; ?>ample/a-2-4-6-floor-plan-thumb.jpg" alt="SEO">
+													</a>
+													<p>2,4,6 Floor Plans - 5BHK</p>
+												</div>
+											</div>
+											<div class="columns-v1">
+												<div class="column-v1">
+													<a href="<?php echo $assets; ?>ample/2-4-6-floor-plans-4bhk.jpg" class="thumb-hover scale" data-rel="lightcase:gallery1">
+														<img src="<?php echo $assets; ?>ample/2-4-6-floor-plans-4bhk-thumb.jpg" alt="SEO">
+													</a>
+													<p>2,4,6 Floor Plans - 4BHK</p>
+												</div>
+												<div class="column-v1">
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- PAGEBODY -->
+				<div class="spacer-big"></div>
+				<section class="hero-gallery-section">
+					<div class="wrapper">
+						<div class="owl-slider hero-slider nav-light" data-autoplay="true" data-loop="true" data-dots="false">
+							<div class="slider-item text-light">
+								<a href="<?php echo $assets; ?>ample/ample-01.jpg" data-rel="lightcase:hero">
+									<div class="bg-img" style="background-image:url(<?php echo $assets; ?>ample/ample-01.jpg);"></div>
+									<div class="owl-slider-caption bottom">
+										<p class="title-alt">Ampleton</p>
+										<div class="spacer-mini"></div>
+										<h2><strong>View Details</strong></h2>
+									</div>
+								</a>
+							</div>
+							<div class="slider-item text-light">
+								<a href="<?php echo $assets; ?>ample/ample-02.jpg" data-rel="lightcase:hero">
+									<div class="bg-img" style="background-image:url(<?php echo $assets; ?>ample/ample-02.jpg);"></div>
+									<div class="owl-slider-caption bottom">
+										<p class="title-alt">Ampleton</p>
+										<div class="spacer-mini"></div>
+										<h2><strong>View Details</strong></h2>
+									</div>
+								</a>
+							</div>
+							<div class="slider-item text-light">
+								<a href="<?php echo $assets; ?>ample/ample-03.jpg" data-rel="lightcase:hero">
+									<div class="bg-img" style="background-image:url(<?php echo $assets; ?>ample/ample-03.jpg);"></div>
+									<div class="owl-slider-caption bottom">
+										<p class="title-alt">Ampleton</p>
+										<div class="spacer-mini"></div>
+										<h2><strong>View Details</strong></h2>
+									</div>
+								</a>
+							</div>
+							<div class="slider-item text-light">
+								<a href="<?php echo $assets; ?>ample/ample-04.jpg" data-rel="lightcase:hero">
+									<div class="bg-img" style="background-image:url(<?php echo $assets; ?>ample/ample-04.jpg);"></div>
+									<div class="owl-slider-caption bottom">
+										<p class="title-alt">Ampleton</p>
+										<div class="spacer-mini"></div>
+										<h2><strong>View Details</strong></h2>
+									</div>
+								</a>
+							</div>
+							<div class="slider-item text-light">
+								<a href="<?php echo $assets; ?>ample/ample-05.jpg" data-rel="lightcase:hero">
+									<div class="bg-img" style="background-image:url(<?php echo $assets; ?>ample/ample-05.jpg);"></div>
+									<div class="owl-slider-caption bottom">
+										<p class="title-alt">Ampleton</p>
+										<div class="spacer-mini"></div>
+										<h2><strong>View Details</strong></h2>
+									</div>
+								</a>
+							</div>
+							<div class="slider-item text-light">
+								<a href="<?php echo $assets; ?>ample/ample-06.jpg" data-rel="lightcase:hero">
+									<div class="bg-img" style="background-image:url(<?php echo $assets; ?>ample/ample-06.jpg);"></div>
+									<div class="owl-slider-caption bottom">
+										<p class="title-alt">Ampleton</p>
+										<div class="spacer-mini"></div>
+										<h2><strong>View Details</strong></h2>
+									</div>
+								</a>
+							</div>							
+						</div>
+					</div>
+					
+					<div class="spacer-small"></div>
+					<div class="fullwidth-section text-dark" style="background: #fff;">
+						<div class="fullwidth-content wrapper">
+							<div class="column-section spaced-big clearfix">
+								<div class="column one-half">
+									<h1 class="h2 title-alt">Download Brochure</h1>
+								</div>
+								<div class="column one-half last-col">
+									
+									<p>Download our latest PDF brochure to explore detailed insights into our commercial spaces, including layouts, features, and business-ready amenities. Stay informed with our regular construction updates and track the progress of your future investment.</p>
+									<div class="spacer-mini"></div>
+									<div class="three-column-layout">
+									<div class="column-v1 vertical">
+										<p><a href="#" class="sr-button button-big">Download Brochure</a></p>
+									</div>
+									
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="spacer-small"></div>
+				</section>
+			</div>
+			<!-- HERO & BODY -->
+			<!-- FOOTER -->
+			<footer class="footer">
+				<div class="footer-container">
+					<div class="footer-left">
+						<p><small>&copy; Copyright 2025 by Weisdom Design Build</small></p>
+					</div>
+					<div class="footer-right">
+						<p><small>Design by <a href="https://7dayscreation.com/">7 Days Creation</a></small></p>
+					</div>
+				</div>
+			</footer>
+			<!-- FOOTER -->
+		</div>
+		<!-- END #page-content -->
+		<!-- PAGE CONTENT -->
+		<!-- SCRIPTS -->
+		<script src="<?php echo $assets; ?>js/jquery-1.12.4.min.js"></script>
+		<script src="<?php echo $assets; ?>js/plugins.js"></script>
+		<script src="<?php echo $assets; ?>js/jquery.min.phatvideobg.js"></script>
+		<script src="<?php echo $assets; ?>js/jquery.imagesloaded.min.js"></script>
+		<script src="<?php echo $assets; ?>js/jquery.isotope.min.js"></script>
+		<script src="<?php echo $assets; ?>js/jquery.lightcase.min.js"></script>
+		<script src="<?php echo $assets; ?>js/script.js"></script>
+		<script src="<?php echo $assets; ?>js/jquery.owl.carousel.min.js"></script>
+		<script src="<?php echo $assets; ?>js/jquery.sticky-kit.min.js"></script>
+	
+<script>
+    const headers = document.querySelectorAll(".accordion-header");
+
+    headers.forEach(header => {
+        header.addEventListener("click", () => {
+            const item = header.parentElement;
+
+            // Close other accordions
+            document.querySelectorAll(".accordion-item").forEach(i => {
+                if (i !== item) {
+                    i.classList.remove("active");
+                }
+            });
+
+            // Toggle current accordion
+            item.classList.toggle("active");
+        });
+    });
+</script>
+<script>
+window.addEventListener("load", function() {
+
+    let slides = document.querySelectorAll(".slide");
+    let loader = document.querySelector(".slider-loader");
+    let index = 0;
+
+    if(slides.length > 0){
+        slides[0].classList.add("active");
+    }
+
+    // Hide loader after full load
+    loader.style.display = "none";
+
+    setInterval(() => {
+        slides[index].classList.remove("active");
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("active");
+    }, 2000);
+
+});
+</script>
+
+	<!-- SCRIPTS -->
+	</body>
+</html>

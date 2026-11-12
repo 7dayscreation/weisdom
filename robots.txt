@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://weisdom.co.in/sitemap.xml
+LLMS: https://weisdom.co.in/llms.txt

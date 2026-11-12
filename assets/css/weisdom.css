@@ -1,0 +1,10 @@
+/* main.css */
+
+/* Import all your CSS files */
+@import url("style.css");
+@import url("font-awesome.min.css");
+@import url("ionicons.css");
+@import url("isotope.css");
+@import url("owl.carousel.css");
+@import url("mqueries.css");
+@import url("lightcase.css");
