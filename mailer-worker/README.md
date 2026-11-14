@@ -27,3 +27,4 @@ This lightweight Cloudflare Worker acts as a serverless proxy to securely forwar
 
 5. **Connect to Admin Panel:**
    Copy your worker URL (e.g. `https://weisdom-mailer.<your-subdomain>.workers.dev`) and paste it into the **Optional Cloudflare Worker Proxy URL** field in your Weisdom Admin Panel (`/admin/`).
+

@@ -1,9 +1,11 @@
 /* ==========================================================================
    Weisdom Design Build - Off-Canvas Drawers & Modal Forms
-   Clean Architectural Theme: White Background, Gray Text, Masvis & Futura Fonts
-   Strictly Zero Drop Shadow | Perfect Form Alignment & Polished Font Scaling
-   DPDP Act 2023 Compliant Consent & Email OTP Verification
+   Modern Minimalist Aesthetic: Pure White (#ffffff), Gray Text, Flat 0-Shadow
+   Font Family: Inter (Google Fonts) scoped strictly to drawers & forms only
+   DPDP Act 2023 Explicit Consent & Two-Step Email OTP Verification
    ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* ── Overlay Backdrop ─────────────────────────────────────────────────── */
 .ws-drawer-overlay {
@@ -36,7 +38,7 @@
     height: 100vh;
     height: 100dvh;
     background: #ffffff !important;
-    color: #4a4a52;
+    color: #4a4a54;
     z-index: 99999;
     box-shadow: none !important;
     border-left: 1px solid #e5e5e8;
@@ -45,8 +47,8 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    font-family: "futura-pt", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 300;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-weight: 400;
     box-sizing: border-box;
 }
 
@@ -59,7 +61,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 35px 35px 22px 35px;
+    padding: 34px 34px 22px 34px;
     border-bottom: 1px solid #eeeeee;
     background: #ffffff;
     position: relative;
@@ -73,30 +75,32 @@
 
 .ws-drawer-tag {
     display: block;
-    font-size: 12px;
-    letter-spacing: 0.16em;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px !important;
+    letter-spacing: 0.14em !important;
     text-transform: uppercase;
     color: #7b7b85;
     margin-bottom: 6px;
-    font-weight: 400;
+    font-weight: 600 !important;
 }
 
 .ws-drawer-title {
-    font-family: "Masvis", sans-serif !important;
-    font-size: 30px !important;
-    font-weight: 400 !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 25px !important;
+    font-weight: 600 !important;
     color: #111115 !important;
     margin: 0 0 6px 0 !important;
-    letter-spacing: 0.02em !important;
+    letter-spacing: -0.02em !important;
     line-height: 1.25 !important;
 }
 
 .ws-drawer-sub {
-    font-size: 14px;
-    color: #666672;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
+    color: #666675 !important;
     margin: 0;
     line-height: 1.5;
-    font-weight: 300;
+    font-weight: 400 !important;
 }
 
 /* ── Close Button (Minimalist Clean X) ────────────────────────────────── */
@@ -136,10 +140,11 @@
 .ws-drawer-body {
     flex: 1;
     overflow-y: auto;
-    padding: 30px 35px 35px 35px;
+    padding: 30px 34px 34px 34px;
     background: #ffffff;
     box-sizing: border-box;
     -webkit-overflow-scrolling: touch;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .ws-drawer-body::-webkit-scrollbar {
@@ -156,6 +161,7 @@
     padding: 0;
     width: 100%;
     box-sizing: border-box;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .ws-form-group {
@@ -181,13 +187,13 @@
 
 .ws-label {
     display: block;
-    font-size: 12px !important;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #484852 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11.5px !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    color: #3f3f48 !important;
     margin-bottom: 8px !important;
-    font-weight: 500;
-    font-family: "futura-pt", sans-serif;
+    font-weight: 600 !important;
     line-height: 1.2;
 }
 
@@ -209,11 +215,11 @@
     line-height: 50px !important;
     background: #fbfbfc !important;
     border: 1px solid #dcdce2 !important;
-    border-radius: 2px !important;
+    border-radius: 3px !important;
     color: #1a1a20 !important;
-    padding: 0 15px !important;
-    font-size: 15px !important;
-    font-family: "futura-pt", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    padding: 0 16px !important;
+    font-size: 14.5px !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     font-weight: 400 !important;
     box-shadow: none !important;
     transition: border-color 0.2s ease, background 0.2s ease !important;
@@ -227,6 +233,7 @@
     color: #92929e !important;
     font-size: 14px !important;
     opacity: 1 !important;
+    font-family: 'Inter', sans-serif !important;
 }
 
 #ws-drawers-container input.ws-input:focus,
@@ -254,6 +261,7 @@
     background: #ffffff !important;
     color: #1a1a20 !important;
     padding: 10px !important;
+    font-family: 'Inter', sans-serif !important;
 }
 
 /* Custom Textarea */
@@ -282,18 +290,19 @@
 
 .ws-error-msg {
     display: none;
+    font-family: 'Inter', sans-serif !important;
     font-size: 12px;
     color: #d94343;
     margin-top: 6px;
-    line-height: 1.3;
-    font-weight: 400;
+    line-height: 1.35;
+    font-weight: 500;
 }
 
 .ws-form-group.has-error .ws-error-msg {
     display: block;
 }
 
-/* Checkbox (DPDP Explicit Consent - Unchecked by Default) */
+/* ── Checkbox (DPDP Explicit Consent - Unchecked by Default) ────────── */
 .ws-checkbox-group {
     display: flex;
     flex-direction: column;
@@ -303,11 +312,12 @@
     color: #555562;
     line-height: 1.5;
     box-sizing: border-box;
-    padding: 10px 12px;
-    border: 1px solid transparent;
-    border-radius: 3px;
+    padding: 11px 13px;
+    border: 1px solid #e9e9ee;
+    border-radius: 4px;
     background: #fafafc;
     transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .ws-checkbox-inner {
@@ -339,22 +349,22 @@
 .ws-checkbox-group label {
     cursor: pointer;
     margin: 0;
-    font-size: 13px;
+    font-size: 12.5px !important;
     color: #555562;
     line-height: 1.5;
-    font-family: "futura-pt", sans-serif;
-    font-weight: 300;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 400 !important;
 }
 
 .ws-checkbox-group label strong {
-    font-weight: 500;
+    font-weight: 600 !important;
     color: #111115;
 }
 
 .ws-checkbox-group label a {
     color: #111115 !important;
     text-decoration: underline !important;
-    font-weight: 500;
+    font-weight: 600 !important;
 }
 
 .ws-checkbox-group label a:hover {
@@ -383,17 +393,17 @@
     background: #111115 !important;
     color: #ffffff !important;
     border: 1px solid #111115 !important;
-    border-radius: 2px !important;
+    border-radius: 3px !important;
     font-size: 13px !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.14em !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
     cursor: pointer !important;
     box-shadow: none !important;
     transition: background 0.25s ease, border-color 0.25s ease !important;
     text-decoration: none !important;
     position: relative !important;
-    font-family: "futura-pt", sans-serif !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
     margin: 0 !important;
     box-sizing: border-box !important;
 }
@@ -433,12 +443,13 @@
 }
 
 .ws-privacy-note {
-    font-size: 11.5px;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px;
     color: #8c8c96;
     text-align: center;
     margin-top: 14px;
     line-height: 1.4;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 /* ── OTP Verification Screen ─────────────────────────────────────────── */
@@ -446,6 +457,7 @@
     display: none;
     text-align: center;
     padding: 10px 5px 25px 5px;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .ws-otp-icon {
@@ -468,22 +480,26 @@
 }
 
 .ws-otp-title {
-    font-family: "Masvis", sans-serif !important;
-    font-size: 26px !important;
-    font-weight: 400 !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
     color: #111115 !important;
     margin: 0 0 8px 0 !important;
 }
 
 .ws-otp-desc {
-    font-size: 14px;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
     color: #555560;
     line-height: 1.5;
     margin-bottom: 22px;
+    font-weight: 400 !important;
 }
 
 .ws-otp-desc strong {
     color: #111115;
+    font-weight: 600;
     word-break: break-all;
 }
 
@@ -496,7 +512,7 @@
     width: 100% !important;
     max-width: 260px !important;
     height: 56px !important;
-    font-family: 'DM Mono', monospace, sans-serif !important;
+    font-family: 'DM Mono', monospace, 'Inter', sans-serif !important;
     font-size: 26px !important;
     letter-spacing: 0.38em !important;
     text-align: center !important;
@@ -509,10 +525,12 @@
 
 .ws-otp-error {
     display: none;
+    font-family: 'Inter', sans-serif !important;
     font-size: 12px;
     color: #d94343;
     margin-top: 8px;
-    line-height: 1.3;
+    line-height: 1.35;
+    font-weight: 500;
 }
 
 .ws-otp-meta {
@@ -521,20 +539,21 @@
     align-items: center;
     gap: 8px;
     margin: 18px 0 24px 0;
-    font-size: 13px;
+    font-size: 13px !important;
     color: #777782;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .ws-otp-resend {
     color: #111115;
-    font-weight: 500;
+    font-weight: 600 !important;
     cursor: pointer;
     text-decoration: underline;
     background: none;
     border: none;
     padding: 0;
     font-size: 13px;
-    font-family: inherit;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .ws-otp-resend:disabled {
@@ -549,13 +568,14 @@
     gap: 6px;
     color: #666672;
     font-size: 13px;
+    font-weight: 500 !important;
     cursor: pointer;
     background: none;
     border: none;
     padding: 0;
     margin-top: 18px;
     text-decoration: none;
-    font-family: inherit;
+    font-family: 'Inter', sans-serif !important;
     transition: color 0.2s ease;
 }
 
@@ -568,6 +588,7 @@
     display: none;
     text-align: center;
     padding: 45px 20px;
+    font-family: 'Inter', sans-serif !important;
 }
 
 .ws-success-ring {
@@ -586,18 +607,21 @@
 }
 
 .ws-success-title {
-    font-family: "Masvis", sans-serif !important;
-    font-size: 26px !important;
-    font-weight: 400 !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
     color: #111115 !important;
     margin: 0 0 12px 0 !important;
 }
 
 .ws-success-desc {
+    font-family: 'Inter', sans-serif !important;
     font-size: 14px;
     color: #555560;
     line-height: 1.6;
     margin: 0 0 32px 0;
+    font-weight: 400 !important;
 }
 
 .ws-btn-done {
@@ -606,14 +630,15 @@
     background: #ffffff;
     border: 1px solid #111115;
     color: #111115;
-    border-radius: 2px;
-    font-size: 12px;
-    letter-spacing: 0.12em;
+    border-radius: 3px;
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
     box-shadow: none !important;
     transition: all 0.25s ease;
-    font-family: "futura-pt", sans-serif;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
 }
 
 .ws-btn-done:hover {
@@ -640,7 +665,7 @@
         flex: 1 1 100%;
     }
     .ws-drawer-title {
-        font-size: 24px !important;
+        font-size: 22px !important;
     }
 }
 
@@ -654,7 +679,7 @@
     padding: 14px 20px;
     border-radius: 3px;
     font-size: 13.5px;
-    font-family: "futura-pt", sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
     font-weight: 400;
     z-index: 100000;
     max-width: 380px;
@@ -675,5 +700,5 @@
 
 .ws-toast strong {
     color: #f0c36d;
-    font-weight: 500;
+    font-weight: 600;
 }
