@@ -142,20 +142,19 @@
                         </select>
                     </div>
 
-                    <div class="ws-form-row">
-                        <div class="ws-form-group" id="group-v-date">
-                            <label class="ws-label" for="ws-v-date">Preferred Date <span class="required">*</span></label>
-                            <input type="date" id="ws-v-date" class="ws-input" required>
-                            <span class="ws-error-msg">Select a visit date.</span>
-                        </div>
-                        <div class="ws-form-group" id="group-v-time">
-                            <label class="ws-label" for="ws-v-time">Time Slot <span class="required">*</span></label>
-                            <select id="ws-v-time" class="ws-select" required>
-                                <option value="10:00 AM - 12:00 PM">Morning (10:00 AM – 12:00 PM)</option>
-                                <option value="02:00 PM - 04:00 PM" selected>Afternoon (02:00 PM – 04:00 PM)</option>
-                                <option value="04:00 PM - 06:00 PM">Evening (04:00 PM – 06:00 PM)</option>
-                            </select>
-                        </div>
+                    <div class="ws-form-group" id="group-v-date">
+                        <label class="ws-label" for="ws-v-date">Preferred Date <span class="required">*</span></label>
+                        <input type="date" id="ws-v-date" class="ws-input" required>
+                        <span class="ws-error-msg">Select a visit date.</span>
+                    </div>
+
+                    <div class="ws-form-group" id="group-v-time">
+                        <label class="ws-label" for="ws-v-time">Time Slot <span class="required">*</span></label>
+                        <select id="ws-v-time" class="ws-select" required>
+                            <option value="10:00 AM - 12:00 PM">Morning (10:00 AM – 12:00 PM)</option>
+                            <option value="02:00 PM - 04:00 PM" selected>Afternoon (02:00 PM – 04:00 PM)</option>
+                            <option value="04:00 PM - 06:00 PM">Evening (04:00 PM – 06:00 PM)</option>
+                        </select>
                     </div>
 
                     <div class="ws-form-group">

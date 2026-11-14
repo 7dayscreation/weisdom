@@ -275,9 +275,36 @@
 
 /* Date Input Specifics */
 #ws-drawers-container input[type="date"].ws-input {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 50px !important;
+    line-height: 50px !important;
+    padding: 0 16px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14.5px !important;
+    color: #1a1a20 !important;
+    cursor: pointer !important;
+    position: relative !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+#ws-drawers-container input[type="date"].ws-input::-webkit-calendar-picker-indicator {
+    cursor: pointer !important;
+    padding: 4px !important;
+    margin: 0 !important;
+    opacity: 0.65;
+    transition: opacity 0.2s ease;
+}
+
+#ws-drawers-container input[type="date"].ws-input::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+#ws-drawers-container input[type="date"].ws-input::-webkit-datetime-edit {
     line-height: normal !important;
-    padding-top: 13px !important;
-    padding-bottom: 13px !important;
+    padding: 0 !important;
 }
 
 /* Error State */
