@@ -2,6 +2,7 @@
    Weisdom Design Build - Off-Canvas Drawers & Modal Forms
    Clean Architectural Theme: White Background, Gray Text, Masvis & Futura Fonts
    Strictly Zero Drop Shadow | Perfect Form Alignment & Polished Font Scaling
+   DPDP Act 2023 Compliant Consent & Email OTP Verification
    ========================================================================== */
 
 /* ── Overlay Backdrop ─────────────────────────────────────────────────── */
@@ -196,7 +197,7 @@
     font-weight: 600;
 }
 
-/* Override all parent style.css inputs (which forced height: 22px & max-width: calc(100% - 20px)) */
+/* Override all parent style.css inputs */
 #ws-drawers-container input.ws-input,
 #ws-drawers-container select.ws-select,
 #ws-drawers-container textarea.ws-textarea {
@@ -258,7 +259,7 @@
 /* Custom Textarea */
 #ws-drawers-container textarea.ws-textarea {
     height: auto !important;
-    min-height: 90px !important;
+    min-height: 85px !important;
     line-height: 1.5 !important;
     padding: 12px 15px !important;
     resize: vertical !important;
@@ -292,25 +293,45 @@
     display: block;
 }
 
-/* Checkbox (Consent) */
+/* Checkbox (DPDP Explicit Consent - Unchecked by Default) */
 .ws-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: #555562;
+    line-height: 1.5;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background: #fafafc;
+    transition: all 0.2s ease;
+}
+
+.ws-checkbox-inner {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    margin-top: 6px;
-    margin-bottom: 26px;
-    font-size: 13px;
-    color: #5d5d68;
-    line-height: 1.5;
-    box-sizing: border-box;
+    width: 100%;
+}
+
+.ws-checkbox-group.has-error {
+    border-color: #d94343;
+    background: #fff8f8;
+}
+
+.ws-checkbox-group.has-error label {
+    color: #b82b2b !important;
 }
 
 #ws-drawers-container .ws-checkbox-group input[type="checkbox"] {
-    width: 17px !important;
-    height: 17px !important;
-    min-width: 17px !important;
-    max-width: 17px !important;
-    margin-top: 3px !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    margin-top: 2px !important;
     accent-color: #111115 !important;
     cursor: pointer !important;
 }
@@ -319,7 +340,35 @@
     cursor: pointer;
     margin: 0;
     font-size: 13px;
-    color: #5d5d68;
+    color: #555562;
+    line-height: 1.5;
+    font-family: "futura-pt", sans-serif;
+    font-weight: 300;
+}
+
+.ws-checkbox-group label strong {
+    font-weight: 500;
+    color: #111115;
+}
+
+.ws-checkbox-group label a {
+    color: #111115 !important;
+    text-decoration: underline !important;
+    font-weight: 500;
+}
+
+.ws-checkbox-group label a:hover {
+    color: #555560 !important;
+}
+
+.ws-checkbox-group .ws-error-msg {
+    margin-left: 30px;
+    margin-top: 6px;
+    display: none;
+}
+
+.ws-checkbox-group.has-error .ws-error-msg {
+    display: block;
 }
 
 /* ── Submit Button & Actions ─────────────────────────────────────────── */
@@ -384,7 +433,7 @@
 }
 
 .ws-privacy-note {
-    font-size: 12px;
+    font-size: 11.5px;
     color: #8c8c96;
     text-align: center;
     margin-top: 14px;
@@ -392,11 +441,133 @@
     font-weight: 300;
 }
 
+/* ── OTP Verification Screen ─────────────────────────────────────────── */
+.ws-otp-screen {
+    display: none;
+    text-align: center;
+    padding: 10px 5px 25px 5px;
+}
+
+.ws-otp-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #f4f4f6;
+    border: 1px solid #e0e0e4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px auto;
+    color: #111115;
+}
+
+.ws-otp-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.ws-otp-title {
+    font-family: "Masvis", sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 400 !important;
+    color: #111115 !important;
+    margin: 0 0 8px 0 !important;
+}
+
+.ws-otp-desc {
+    font-size: 14px;
+    color: #555560;
+    line-height: 1.5;
+    margin-bottom: 22px;
+}
+
+.ws-otp-desc strong {
+    color: #111115;
+    word-break: break-all;
+}
+
+.ws-otp-box {
+    margin: 10px auto 18px auto;
+    max-width: 280px;
+}
+
+#ws-drawers-container input.ws-otp-input {
+    width: 100% !important;
+    max-width: 260px !important;
+    height: 56px !important;
+    font-family: 'DM Mono', monospace, sans-serif !important;
+    font-size: 26px !important;
+    letter-spacing: 0.38em !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    font-weight: 500 !important;
+    border: 1.5px solid #111115 !important;
+    background: #ffffff !important;
+    border-radius: 3px !important;
+}
+
+.ws-otp-error {
+    display: none;
+    font-size: 12px;
+    color: #d94343;
+    margin-top: 8px;
+    line-height: 1.3;
+}
+
+.ws-otp-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 24px 0;
+    font-size: 13px;
+    color: #777782;
+}
+
+.ws-otp-resend {
+    color: #111115;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.ws-otp-resend:disabled {
+    color: #9999a2;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+.ws-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #666672;
+    font-size: 13px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: 18px;
+    text-decoration: none;
+    font-family: inherit;
+    transition: color 0.2s ease;
+}
+
+.ws-back-link:hover {
+    color: #111115;
+}
+
 /* ── Success Screen ───────────────────────────────────────────────────── */
 .ws-drawer-success {
     display: none;
     text-align: center;
-    padding: 50px 20px;
+    padding: 45px 20px;
 }
 
 .ws-success-ring {
@@ -471,4 +642,38 @@
     .ws-drawer-title {
         font-size: 24px !important;
     }
+}
+
+/* ── Floating Notification Toast (Zero Shadow, Clean Minimal) ─────────── */
+.ws-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #111115;
+    color: #ffffff;
+    padding: 14px 20px;
+    border-radius: 3px;
+    font-size: 13.5px;
+    font-family: "futura-pt", sans-serif;
+    font-weight: 400;
+    z-index: 100000;
+    max-width: 380px;
+    line-height: 1.45;
+    border: 1px solid #33333b;
+    box-shadow: none !important;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.ws-toast.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.ws-toast strong {
+    color: #f0c36d;
+    font-weight: 500;
 }

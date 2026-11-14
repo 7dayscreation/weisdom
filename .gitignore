@@ -25,3 +25,7 @@ temp_runner.php
 _php_backup/
 _php_backup.zip
 
+# Scratch scripts
+scratch/
+
+

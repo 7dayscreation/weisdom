@@ -2,26 +2,28 @@
  * Weisdom Design Build - Off-Canvas Drawers & Forms Controller
  * Handles:
  * 1. Download Brochure Side Drawer
- * 2. Schedule Site Visit Side Drawer
- * 3. Client-side Validation, Local Storage Lead Ledger, and Instant PDF Trigger
+ * 2. Schedule Site Visit Side Drawer with DPDP Act 2023 Explicit Consent
+ * 3. Two-Step Email OTP Verification for Site Visit
+ * 4. Client-side Validation, LocalStorage Lead Ledger, and Instant PDF Trigger
+ * 5. Integration with WeisdomMailer (Resend & Cloudflare Pages static architecture)
  */
 
 (function () {
     'use strict';
 
-    // ── Determine Base Prefix for Brochure PDF Asset ───────────────────────
+    // ── Determine Base Prefix for Brochure PDF and Internal Links ──────────
     function getRootPrefix() {
         const path = window.location.pathname;
         if (path.includes('/ample-living/amenities/') || path.includes('/ample-living/family-life/')) {
             return '../../';
-        } else if (path.includes('/ample-living/') || path.includes('/ampleton/') || path.includes('/connect/') || path.includes('/privacy-policy/') || path.includes('/rera-policy/')) {
+        } else if (path.includes('/ample-living/') || path.includes('/ampleton/') || path.includes('/connect/') || path.includes('/privacy-policy/') || path.includes('/rera-policy/') || path.includes('/admin/')) {
             return '../';
         }
         return './';
     }
 
     // ── Build HTML Template for Drawers ────────────────────────────────────
-    function createDrawersHTML() {
+    function createDrawersHTML(rootPrefix) {
         return `
         <!-- Overlay Backdrop -->
         <div class="ws-drawer-overlay" id="wsDrawerOverlay"></div>
@@ -67,9 +69,15 @@
                         </select>
                     </div>
 
-                    <div class="ws-checkbox-group">
-                        <input type="checkbox" id="ws-b-consent" checked>
-                        <label for="ws-b-consent">Send brochure copy & project construction updates directly to my email/WhatsApp.</label>
+                    <!-- DPDP Act 2023 Explicit Consent (Unchecked by Default) -->
+                    <div class="ws-checkbox-group" id="group-b-consent">
+                        <div class="ws-checkbox-inner">
+                            <input type="checkbox" id="ws-b-consent">
+                            <label for="ws-b-consent">
+                                I consent to Weisdom Design Build storing my contact details and sending brochure copy, architectural layouts &amp; construction updates via Email &amp; WhatsApp in accordance with the <strong>DPDP Act 2023</strong>. I agree to the <a href="${rootPrefix}privacy-policy/" target="_blank">Privacy Policy</a> &amp; <a href="${rootPrefix}rera-policy/" target="_blank">Terms</a>.
+                            </label>
+                        </div>
+                        <span class="ws-error-msg">Consent is required under DPDP Act 2023 to download brochure.</span>
                     </div>
 
                     <button type="submit" class="ws-btn-submit" id="wsBrochureSubmit">
@@ -105,6 +113,7 @@
             </div>
 
             <div class="ws-drawer-body">
+                <!-- Step 1: Initial Form -->
                 <form id="wsVisitForm" novalidate>
                     <div class="ws-form-group" id="group-v-name">
                         <label class="ws-label" for="ws-v-name">Full Name <span class="required">*</span></label>
@@ -116,7 +125,7 @@
                         <div class="ws-form-group" id="group-v-email">
                             <label class="ws-label" for="ws-v-email">Email Address <span class="required">*</span></label>
                             <input type="email" id="ws-v-email" class="ws-input" placeholder="name@domain.com" required autocomplete="email">
-                            <span class="ws-error-msg">Please enter a valid email.</span>
+                            <span class="ws-error-msg">Please enter a valid email address.</span>
                         </div>
                         <div class="ws-form-group" id="group-v-phone">
                             <label class="ws-label" for="ws-v-phone">Mobile Number <span class="required">*</span></label>
@@ -154,19 +163,64 @@
                         <textarea id="ws-v-notes" class="ws-textarea" placeholder="E.g. Interested in 3BHK or 4BHK units, floor preferences, etc."></textarea>
                     </div>
 
+                    <!-- DPDP Act 2023 Explicit Consent (Unchecked by Default) -->
+                    <div class="ws-checkbox-group" id="group-v-consent">
+                        <div class="ws-checkbox-inner">
+                            <input type="checkbox" id="ws-v-consent">
+                            <label for="ws-v-consent">
+                                I authorize Weisdom Design Build to contact me via Email, Call &amp; WhatsApp regarding my site visit appointment in compliance with the <strong>DPDP Act 2023</strong>. I agree to the <a href="${rootPrefix}privacy-policy/" target="_blank">Privacy Policy</a> &amp; <a href="${rootPrefix}rera-policy/" target="_blank">Terms</a>.
+                            </label>
+                        </div>
+                        <span class="ws-error-msg">Consent is mandatory under DPDP Act 2023 before scheduling.</span>
+                    </div>
+
                     <button type="submit" class="ws-btn-submit" id="wsVisitSubmit">
                         <span class="ws-spinner"></span>
-                        <span>Confirm Site Visit Request</span>
+                        <span>Schedule Visit &amp; Verify Email</span>
                     </button>
                     <p class="ws-privacy-note">Site Address: Ample Living, Kudasan-Koba Highway, Gandhinagar.</p>
                 </form>
 
-                <!-- Success State -->
+                <!-- Step 2: Email OTP Verification Screen -->
+                <div class="ws-otp-screen" id="wsVisitOtpStep">
+                    <div class="ws-otp-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                    </div>
+                    <h3 class="ws-otp-title">Verify Your Email</h3>
+                    <p class="ws-otp-desc">
+                        We have sent a 6-digit verification code to<br>
+                        <strong id="wsOtpEmailDisplay">name@example.com</strong>
+                    </p>
+
+                    <div class="ws-otp-box">
+                        <input type="text" id="ws-v-otp" class="ws-otp-input" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="······" autocomplete="one-time-code">
+                        <div class="ws-otp-error" id="wsOtpError">Invalid code. Please enter the 6-digit OTP sent to your email.</div>
+                    </div>
+
+                    <button type="button" class="ws-btn-submit" id="wsVisitOtpSubmit">
+                        <span class="ws-spinner"></span>
+                        <span>Confirm &amp; Book Appointment</span>
+                    </button>
+
+                    <div class="ws-otp-meta">
+                        <span id="wsOtpTimerText">Resend code in <strong id="wsOtpCountdown">30s</strong></span>
+                        <button type="button" class="ws-otp-resend" id="wsOtpResendBtn" style="display:none;">Resend OTP Code</button>
+                    </div>
+
+                    <div>
+                        <button type="button" class="ws-back-link" id="wsOtpBackBtn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                            <span>Edit Contact Details</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Success State -->
                 <div class="ws-drawer-success" id="wsVisitSuccess">
                     <div class="ws-success-ring">✓</div>
-                    <h3 class="ws-success-title">Site Visit Scheduled!</h3>
+                    <h3 class="ws-success-title">Site Visit Confirmed!</h3>
                     <p class="ws-success-desc" id="wsVisitSuccessDesc">
-                        Thank you. Your appointment has been booked. A confirmation with site directions has been sent to your email.
+                        Thank you. Your site visit appointment has been verified and confirmed. A confirmation with site directions has been sent to your email.
                     </p>
                     <button type="button" class="ws-btn-done" data-ws-close>Done</button>
                 </div>
@@ -175,9 +229,15 @@
         `;
     }
 
-    // ── State & Elements ───────────────────────────────────────────────────
+    // ── State Variables ────────────────────────────────────────────────────
     let overlay, drawerBrochure, drawerVisit;
     let activeDrawer = null;
+
+    // Site Visit Pending State for OTP Step
+    let pendingVisitData = null;
+    let activeOtpCode = null;
+    let otpTimerInterval = null;
+    let otpCountdownSeconds = 30;
 
     // ── Open / Close Functions ─────────────────────────────────────────────
     function openDrawer(drawerId, preselectedProject) {
@@ -210,7 +270,7 @@
 
         // Focus first input
         setTimeout(() => {
-            const firstInput = targetDrawer.querySelector('input:not([type="hidden"]), select');
+            const firstInput = targetDrawer.querySelector('input:not([type="hidden"]):not([type="checkbox"]), select');
             if (firstInput) firstInput.focus();
         }, 150);
     }
@@ -244,8 +304,8 @@
     function saveLeadToLedger(lead) {
         try {
             const list = JSON.parse(localStorage.getItem('weisdom_leads') || '[]');
-            lead.id = 'lead_' + Date.now();
-            lead.timestamp = new Date().toISOString();
+            lead.id = lead.id || 'lead_' + Date.now();
+            lead.created_at = new Date().toISOString();
             list.unshift(lead);
             localStorage.setItem('weisdom_leads', JSON.stringify(list));
         } catch (e) {
@@ -253,12 +313,46 @@
         }
     }
 
+    // ── OTP Timer Helpers ──────────────────────────────────────────────────
+    function startOtpCountdown() {
+        clearInterval(otpTimerInterval);
+        otpCountdownSeconds = 30;
+
+        const countdownEl = document.getElementById('wsOtpCountdown');
+        const timerTextEl = document.getElementById('wsOtpTimerText');
+        const resendBtn = document.getElementById('wsOtpResendBtn');
+
+        if (timerTextEl) timerTextEl.style.display = 'inline';
+        if (resendBtn) resendBtn.style.display = 'none';
+        if (countdownEl) countdownEl.textContent = `${otpCountdownSeconds}s`;
+
+        otpTimerInterval = setInterval(() => {
+            otpCountdownSeconds--;
+            if (countdownEl) countdownEl.textContent = `${otpCountdownSeconds}s`;
+
+            if (otpCountdownSeconds <= 0) {
+                clearInterval(otpTimerInterval);
+                if (timerTextEl) timerTextEl.style.display = 'none';
+                if (resendBtn) {
+                    resendBtn.style.display = 'inline';
+                    resendBtn.disabled = false;
+                }
+            }
+        }, 1000);
+    }
+
+    function generate6DigitOtp() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
     // ── Initialize ─────────────────────────────────────────────────────────
     function init() {
+        const rootPrefix = getRootPrefix();
+
         // Inject drawer HTML once into body
         const container = document.createElement('div');
         container.id = 'ws-drawers-container';
-        container.innerHTML = createDrawersHTML();
+        container.innerHTML = createDrawersHTML(rootPrefix);
         document.body.appendChild(container);
 
         overlay = document.getElementById('wsDrawerOverlay');
@@ -286,6 +380,21 @@
             }
         });
 
+        // Live Consent Checkbox Error Reset
+        const brochureConsent = document.getElementById('ws-b-consent');
+        if (brochureConsent) {
+            brochureConsent.addEventListener('change', () => {
+                if (brochureConsent.checked) setFieldError('group-b-consent', false);
+            });
+        }
+
+        const visitConsent = document.getElementById('ws-v-consent');
+        if (visitConsent) {
+            visitConsent.addEventListener('change', () => {
+                if (visitConsent.checked) setFieldError('group-v-consent', false);
+            });
+        }
+
         // Delegate Click Listeners for Trigger Buttons
         document.addEventListener('click', (e) => {
             const brochureTrigger = e.target.closest('.open-brochure-drawer, [data-open-brochure]');
@@ -308,19 +417,20 @@
         // ── Handle Brochure Form Submit ────────────────────────────────────
         const brochureForm = document.getElementById('wsBrochureForm');
         if (brochureForm) {
-            brochureForm.addEventListener('submit', function (e) {
+            brochureForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
 
                 const name = document.getElementById('ws-b-name').value.trim();
                 const email = document.getElementById('ws-b-email').value.trim();
                 const phone = document.getElementById('ws-b-phone').value.trim();
                 const project = document.getElementById('ws-b-project').value;
-                const consent = document.getElementById('ws-b-consent').checked;
+                const consentChecked = document.getElementById('ws-b-consent').checked;
 
                 let hasError = false;
                 if (!name || name.length < 2) { setFieldError('group-b-name', true); hasError = true; } else { setFieldError('group-b-name', false); }
                 if (!isValidEmail(email)) { setFieldError('group-b-email', true); hasError = true; } else { setFieldError('group-b-email', false); }
                 if (!isValidPhone(phone)) { setFieldError('group-b-phone', true); hasError = true; } else { setFieldError('group-b-phone', false); }
+                if (!consentChecked) { setFieldError('group-b-consent', true); hasError = true; } else { setFieldError('group-b-consent', false); }
 
                 if (hasError) return;
 
@@ -328,25 +438,32 @@
                 submitBtn.classList.add('loading');
                 submitBtn.disabled = true;
 
+                const pdfUrl = rootPrefix + 'ample-living/ample-living.pdf';
+                const absoluteBrochureUrl = new URL(pdfUrl, window.location.href).href;
+
                 const leadPayload = {
                     type: 'brochure_download',
                     name,
                     email,
                     phone,
                     project,
-                    consent,
+                    dpdp_consent: true,
+                    dpdp_timestamp: new Date().toISOString(),
                     source: window.location.pathname
                 };
 
                 // Save locally for admin ledger
                 saveLeadToLedger(leadPayload);
 
-                // Dispatch event for Step 2 Resend Mailer Hook
+                // Dispatch global event
                 window.dispatchEvent(new CustomEvent('weisdom:lead_submitted', { detail: leadPayload }));
 
-                // Instant download of brochure PDF
-                const rootPrefix = getRootPrefix();
-                const pdfUrl = rootPrefix + 'ample-living/ample-living.pdf';
+                // Dispatch emails via WeisdomMailer if available
+                if (window.WeisdomMailer) {
+                    window.WeisdomMailer.sendBrochureDownload(leadPayload, absoluteBrochureUrl);
+                }
+
+                // Instant download of brochure PDF in visitor's browser
                 const tempLink = document.createElement('a');
                 tempLink.href = pdfUrl;
                 tempLink.download = 'Weisdom-Ample-Living-Brochure.pdf';
@@ -355,7 +472,7 @@
                 tempLink.click();
                 document.body.removeChild(tempLink);
 
-                // Simulate/Complete state transition
+                // Complete state transition to success screen
                 setTimeout(() => {
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
@@ -370,10 +487,10 @@
             });
         }
 
-        // ── Handle Site Visit Form Submit ──────────────────────────────────
+        // ── Handle Site Visit Form Submit (Step 1: Validate & Trigger OTP) ──
         const visitForm = document.getElementById('wsVisitForm');
         if (visitForm) {
-            visitForm.addEventListener('submit', function (e) {
+            visitForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
 
                 const name = document.getElementById('ws-v-name').value.trim();
@@ -383,12 +500,14 @@
                 const date = document.getElementById('ws-v-date').value;
                 const time = document.getElementById('ws-v-time').value;
                 const notes = document.getElementById('ws-v-notes').value.trim();
+                const consentChecked = document.getElementById('ws-v-consent').checked;
 
                 let hasError = false;
                 if (!name || name.length < 2) { setFieldError('group-v-name', true); hasError = true; } else { setFieldError('group-v-name', false); }
                 if (!isValidEmail(email)) { setFieldError('group-v-email', true); hasError = true; } else { setFieldError('group-v-email', false); }
                 if (!isValidPhone(phone)) { setFieldError('group-v-phone', true); hasError = true; } else { setFieldError('group-v-phone', false); }
                 if (!date) { setFieldError('group-v-date', true); hasError = true; } else { setFieldError('group-v-date', false); }
+                if (!consentChecked) { setFieldError('group-v-consent', true); hasError = true; } else { setFieldError('group-v-consent', false); }
 
                 if (hasError) return;
 
@@ -396,7 +515,8 @@
                 submitBtn.classList.add('loading');
                 submitBtn.disabled = true;
 
-                const leadPayload = {
+                // Cache pending lead data
+                pendingVisitData = {
                     type: 'site_visit',
                     name,
                     email,
@@ -405,27 +525,154 @@
                     visit_date: date,
                     visit_time: time,
                     notes,
+                    dpdp_consent: true,
+                    dpdp_timestamp: new Date().toISOString(),
                     source: window.location.pathname
                 };
 
-                // Save locally for admin ledger
-                saveLeadToLedger(leadPayload);
+                // Generate 6-digit OTP
+                activeOtpCode = generate6DigitOtp();
 
-                // Dispatch event for Step 2 Resend Mailer Hook
-                window.dispatchEvent(new CustomEvent('weisdom:lead_submitted', { detail: leadPayload }));
+                // Dispatch OTP via WeisdomMailer
+                if (window.WeisdomMailer) {
+                    await window.WeisdomMailer.sendOtp(email, name, activeOtpCode);
+                } else {
+                    console.info('[Weisdom OTP Demo Code]:', activeOtpCode);
+                }
 
-                // Complete state transition
+                // Switch View to Step 2: OTP Screen
                 setTimeout(() => {
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
+
                     visitForm.style.display = 'none';
+                    const otpScreen = document.getElementById('wsVisitOtpStep');
+                    const emailDisplay = document.getElementById('wsOtpEmailDisplay');
+                    const otpInput = document.getElementById('ws-v-otp');
+                    const otpError = document.getElementById('wsOtpError');
+
+                    if (emailDisplay) emailDisplay.textContent = email;
+                    if (otpInput) {
+                        otpInput.value = '';
+                        otpInput.classList.remove('has-error');
+                    }
+                    if (otpError) otpError.style.display = 'none';
+                    if (otpScreen) otpScreen.style.display = 'block';
+
+                    startOtpCountdown();
+
+                    if (otpInput) {
+                        setTimeout(() => otpInput.focus(), 150);
+                    }
+                }, 350);
+            });
+        }
+
+        // ── Handle OTP Input & Formatting ──────────────────────────────────
+        const otpInput = document.getElementById('ws-v-otp');
+        if (otpInput) {
+            otpInput.addEventListener('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                const otpError = document.getElementById('wsOtpError');
+                if (otpError) otpError.style.display = 'none';
+
+                // Auto-submit when 6 digits entered
+                if (this.value.length === 6) {
+                    document.getElementById('wsVisitOtpSubmit').click();
+                }
+            });
+        }
+
+        // ── Handle OTP Verification (Step 2: Confirm Appointment) ──────────
+        const otpSubmitBtn = document.getElementById('wsVisitOtpSubmit');
+        if (otpSubmitBtn) {
+            otpSubmitBtn.addEventListener('click', async function () {
+                const otpVal = (document.getElementById('ws-v-otp').value || '').trim();
+                const otpError = document.getElementById('wsOtpError');
+
+                if (!otpVal || otpVal.length !== 6 || otpVal !== activeOtpCode) {
+                    if (otpError) {
+                        otpError.textContent = 'Invalid verification code. Please check your email or request a new code.';
+                        otpError.style.display = 'block';
+                    }
+                    if (otpInput) {
+                        otpInput.focus();
+                        otpInput.select();
+                    }
+                    return;
+                }
+
+                // Code is VALID! Proceed to confirmation
+                otpSubmitBtn.classList.add('loading');
+                otpSubmitBtn.disabled = true;
+
+                const confirmedLead = Object.assign({}, pendingVisitData, {
+                    otp_verified: true,
+                    verified_at: new Date().toISOString()
+                });
+
+                // Save verified lead to ledger
+                saveLeadToLedger(confirmedLead);
+
+                // Dispatch global lead event
+                window.dispatchEvent(new CustomEvent('weisdom:lead_submitted', { detail: confirmedLead }));
+
+                // Dispatch confirmation emails via WeisdomMailer
+                if (window.WeisdomMailer) {
+                    await window.WeisdomMailer.sendSiteVisitConfirmation(confirmedLead);
+                }
+
+                clearInterval(otpTimerInterval);
+
+                setTimeout(() => {
+                    otpSubmitBtn.classList.remove('loading');
+                    otpSubmitBtn.disabled = false;
+
+                    document.getElementById('wsVisitOtpStep').style.display = 'none';
                     const success = document.getElementById('wsVisitSuccess');
                     const desc = document.getElementById('wsVisitSuccessDesc');
                     if (desc) {
-                        desc.innerHTML = `Thank you <strong>${name}</strong>. Your visit to <strong>${project}</strong> is scheduled for <strong>${date}</strong> (${time}). An appointment confirmation has been sent to <strong>${email}</strong>.`;
+                        desc.innerHTML = `Thank you <strong>${confirmedLead.name}</strong>. Your visit to <strong>${confirmedLead.project}</strong> has been verified and confirmed for <strong>${confirmedLead.visit_date}</strong> (${confirmedLead.visit_time}). An appointment confirmation and site directions have been sent to <strong>${confirmedLead.email}</strong>.`;
                     }
                     if (success) success.style.display = 'block';
                 }, 400);
+            });
+        }
+
+        // ── Handle Resend OTP Code ─────────────────────────────────────────
+        const resendBtn = document.getElementById('wsOtpResendBtn');
+        if (resendBtn) {
+            resendBtn.addEventListener('click', async function () {
+                if (!pendingVisitData) return;
+
+                resendBtn.disabled = true;
+                activeOtpCode = generate6DigitOtp();
+
+                if (window.WeisdomMailer) {
+                    await window.WeisdomMailer.sendOtp(pendingVisitData.email, pendingVisitData.name, activeOtpCode);
+                } else {
+                    console.info('[Weisdom Resent OTP Code]:', activeOtpCode);
+                }
+
+                startOtpCountdown();
+
+                const otpError = document.getElementById('wsOtpError');
+                if (otpError) otpError.style.display = 'none';
+
+                if (otpInput) {
+                    otpInput.value = '';
+                    otpInput.focus();
+                }
+            });
+        }
+
+        // ── Handle Back Link (Edit Details) ────────────────────────────────
+        const backBtn = document.getElementById('wsOtpBackBtn');
+        if (backBtn) {
+            backBtn.addEventListener('click', function () {
+                clearInterval(otpTimerInterval);
+                document.getElementById('wsVisitOtpStep').style.display = 'none';
+                document.getElementById('wsVisitForm').style.display = 'block';
             });
         }
     }
@@ -445,4 +692,3 @@
     };
 
 })();
-

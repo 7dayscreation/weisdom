@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weisdom Admin — Leads & Mailer Settings</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/png">
+
+    <!-- Styles -->
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0b0b0e;
+            --surface: #121217;
+            --card: #181820;
+            --card-hover: #1f1f2a;
+            --border: #23232e;
+            --border-light: #2d2d3b;
+            --accent: #d4a359;
+            --accent-dim: rgba(212, 163, 89, 0.12);
+            --accent-glow: rgba(212, 163, 89, 0.25);
+            --text: #eaeaf0;
+            --text-dim: #9898a6;
+            --muted: #626272;
+            --success: #3bb273;
+            --success-dim: rgba(59, 178, 115, 0.12);
+            --error: #e05252;
+            --error-dim: rgba(224, 82, 82, 0.12);
+            --white: #ffffff;
+            --radius: 6px;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-weight: 400;
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── LOCK SCREEN ────────────────────────────────────────────── */
+        .ws-lock-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            padding: 24px;
+        }
+
+        .ws-lock-box {
+            width: 100%;
+            max-width: 380px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 38px 32px;
+            text-align: center;
+        }
+
+        .ws-lock-logo {
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .ws-lock-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .ws-lock-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 26px;
+        }
+
+        .ws-lock-input {
+            width: 100%;
+            height: 48px;
+            background: var(--card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            color: var(--white);
+            font-family: 'DM Mono', monospace;
+            font-size: 16px;
+            text-align: center;
+            letter-spacing: 0.15em;
+            outline: none;
+            margin-bottom: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .ws-lock-input:focus {
+            border-color: var(--accent);
+        }
+
+        .ws-lock-btn {
+            width: 100%;
+            height: 48px;
+            background: var(--accent);
+            color: #000000;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .ws-lock-btn:hover {
+            opacity: 0.9;
+        }
+
+        .ws-lock-error {
+            display: none;
+            font-size: 12px;
+            color: var(--error);
+            margin-top: 10px;
+        }
+
+        .ws-lock-hint {
+            font-size: 11.5px;
+            color: var(--muted);
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        /* ── ADMIN LAYOUT ───────────────────────────────────────────── */
+        #adminApp {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 900px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── SIDEBAR ────────────────────────────────────────────────── */
+        .admin-sidebar {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-brand {
+            padding-bottom: 24px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-badge {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 0.02em;
+        }
+
+        .brand-sub {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius);
+            color: var(--text-dim);
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .nav-btn:hover {
+            background: var(--card);
+            color: var(--text);
+        }
+
+        .nav-btn.active {
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-color: var(--accent-glow);
+        }
+
+        .nav-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-lock {
+            width: 100%;
+            padding: 11px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            border-radius: var(--radius);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-lock:hover {
+            background: #252532;
+            color: var(--white);
+        }
+
+        /* ── MAIN CONTENT ───────────────────────────────────────────── */
+        .admin-main {
+            padding: 40px;
+            max-width: 1300px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .admin-main {
+                padding: 24px 18px;
+            }
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        .view-header {
+            margin-bottom: 30px;
+        }
+
+        .view-tag {
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .view-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .view-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+
+        /* ── STATS CARDS ────────────────────────────────────────────── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-family: 'DM Mono', monospace;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+        }
+
+        .stat-pill {
+            display: inline-block;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .pill-success {
+            background: var(--success-dim);
+            color: var(--success);
+        }
+
+        .pill-warn {
+            background: rgba(220, 160, 40, 0.15);
+            color: #dca028;
+        }
+
+        /* ── CARD BOXES ─────────────────────────────────────────────── */
+        .card-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .card-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .card-box-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--white);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            background: var(--card);
+            border: 1px solid var(--border-light);
+            color: var(--text);
+            border-radius: var(--radius);
+            font-size: 12.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-action:hover {
+            background: var(--card-hover);
+            border-color: var(--muted);
+        }
+
+        .btn-action-primary {
+            background: var(--accent);
+            color: #000000;
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+
+        .btn-action-primary:hover {
+            background: #e2b26b;
+            color: #000000;
+        }
+
+        .btn-action-danger {
+            background: var(--error-dim);
+            color: var(--error);
+            border-color: rgba(224, 82, 82, 0.3);
+        }
+
+        .btn-action-danger:hover {
+            background: rgba(224, 82, 82, 0.2);
+        }
+
+        /* ── LEADS TABLE ────────────────────────────────────────────── */
+        .table-responsive {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .leads-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .leads-table th {
+            padding: 12px 14px;
+            background: var(--card);
+            color: var(--text-dim);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            font-size: 11.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+
+        .leads-table td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            vertical-align: middle;
+        }
+
+        .leads-table tr:hover td {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .badge-type {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .badge-visit {
+            background: rgba(85, 136, 204, 0.15);
+            color: #77a8e8;
+            border: 1px solid rgba(85, 136, 204, 0.3);
+        }
+
+        .badge-brochure {
+            background: rgba(212, 163, 89, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(212, 163, 89, 0.3);
+        }
+
+        .badge-verified {
+            color: var(--success);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .empty-leads {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        .empty-leads svg {
+            width: 48px;
+            height: 48px;
+            fill: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        /* ── FORM FIELDS FOR SETTINGS ───────────────────────────────── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 22px;
+            max-width: 680px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field-label {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .field-input {
+            width: 100%;
+            height: 46px;
+            background: var(--card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            color: var(--white);
+            padding: 0 14px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .field-input:focus {
+            border-color: var(--accent);
+        }
+
+        .field-help {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .field-help strong {
+            color: var(--text-dim);
+        }
+
+        .banner-info {
+            background: rgba(85, 136, 204, 0.08);
+            border: 1px solid rgba(85, 136, 204, 0.2);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            font-size: 13px;
+            color: #9abce6;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .banner-info strong {
+            color: #c7defa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── 1. LOCK SCREEN ────────────────────────────────────────────── -->
+    <div class="ws-lock-screen" id="wsLockScreen">
+        <div class="ws-lock-box">
+            <span class="ws-lock-logo">Weisdom Design Build</span>
+            <h1 class="ws-lock-title">Admin Console</h1>
+            <p class="ws-lock-sub">Enter your security PIN or password to manage leads &amp; email configuration.</p>
+            
+            <input type="password" id="wsLockInput" class="ws-lock-input" placeholder="Enter PIN (Default: weisdom2026)" autocomplete="current-password">
+            <button type="button" id="wsLockBtn" class="ws-lock-btn">Unlock Console</button>
+            <div class="ws-lock-error" id="wsLockError">Incorrect PIN. Try default: weisdom2026</div>
+
+            <p class="ws-lock-hint">
+                Static security runs 100% locally in your browser. All leads and settings persist via protected localStorage.
+            </p>
+        </div>
+    </div>
+
+    <!-- ── 2. ADMIN APP CONTAINER ────────────────────────────────────── -->
+    <div id="adminApp">
+        <div class="admin-layout">
+            
+            <!-- Sidebar -->
+            <aside class="admin-sidebar">
+                <div class="admin-brand">
+                    <span class="brand-badge">Architectural Console</span>
+                    <h2 class="brand-name">Weisdom Build</h2>
+                    <span class="brand-sub">Lead Ledger &amp; Resend Manager</span>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <button type="button" class="nav-btn active" data-view="leads">
+                        <span class="nav-icon">📊</span>
+                        <span>Leads &amp; Appointments</span>
+                    </button>
+                    <button type="button" class="nav-btn" data-view="api">
+                        <span class="nav-icon">🔑</span>
+                        <span>Resend Email API</span>
+                    </button>
+                    <button type="button" class="nav-btn" data-view="crm">
+                        <span class="nav-icon">⚡</span>
+                        <span>CRM Integration</span>
+                    </button>
+                    <button type="button" class="nav-btn" data-view="dpdp">
+                        <span class="nav-icon">🛡</span>
+                        <span>DPDP &amp; Security</span>
+                    </button>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button type="button" class="btn-lock" id="wsLogoutBtn">
+                        <span>🔒</span> Lock Console
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Workspace -->
+            <main class="admin-main">
+                
+                <!-- VIEW 1: LEADS LEDGER -->
+                <section class="view-section active" id="view-leads">
+                    <div class="view-header">
+                        <span class="view-tag">Live Activity</span>
+                        <h1 class="view-title">Leads &amp; Site Visit Ledger</h1>
+                        <p class="view-desc">Real-time ledger of verified site visit appointments and digital brochure downloads.</p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="statTotalLeads">0</div>
+                            <div class="stat-label">Total Submissions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="statSiteVisits">0</div>
+                            <div class="stat-label">Site Visits (OTP Verified)</div>
+                            <span class="stat-pill pill-success">✓ 100% Verified</span>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="statBrochures">0</div>
+                            <div class="stat-label">Brochure Downloads</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="statMailerStatus" style="font-size: 20px; line-height: 1.6;">Checking...</div>
+                            <div class="stat-label">Resend Mailer Status</div>
+                        </div>
+                    </div>
+
+                    <!-- Leads Table Card -->
+                    <div class="card-box">
+                        <div class="card-header-row">
+                            <h3 class="card-box-title">Registered Leads Ledger</h3>
+                            <div class="card-actions">
+                                <button type="button" class="btn-action" id="btnFilterAll">All</button>
+                                <button type="button" class="btn-action" id="btnFilterVisits">Site Visits</button>
+                                <button type="button" class="btn-action" id="btnFilterBrochures">Brochures</button>
+                                <button type="button" class="btn-action btn-action-primary" id="btnExportCsv">
+                                    <span>📥</span> Export CSV
+                                </button>
+                                <button type="button" class="btn-action btn-action-danger" id="btnClearLeads">
+                                    Clear All
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="leads-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date &amp; Time</th>
+                                        <th>Type</th>
+                                        <th>Name</th>
+                                        <th>Contact Details</th>
+                                        <th>Project</th>
+                                        <th>Schedule / Notes</th>
+                                        <th>DPDP Act Consent</th>
+                                        <th>OTP Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leadsTableBody">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                            <div class="empty-leads" id="emptyLeadsState" style="display: none;">
+                                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                                <p>No leads recorded yet. Submissions from the website will automatically appear here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: RESEND EMAIL API -->
+                <section class="view-section" id="view-api">
+                    <div class="view-header">
+                        <span class="view-tag">Configuration</span>
+                        <h1 class="view-title">Resend Email API Settings</h1>
+                        <p class="view-desc">Configure your Resend API credentials for automated OTP and confirmation emails.</p>
+                    </div>
+
+                    <div class="banner-info">
+                        <strong>Static Architecture:</strong> Keys stored here are preserved securely in your browser's <code>localStorage</code>. They are never pushed to public GitHub code. In production, you can also deploy the included Cloudflare Worker as a proxy mailer.
+                    </div>
+
+                    <div class="card-box">
+                        <h3 class="card-box-title" style="margin-bottom: 20px;">Email Dispatcher Credentials</h3>
+                        
+                        <form id="resendConfigForm" class="form-grid">
+                            <div class="field-group">
+                                <label class="field-label" for="cfgResendKey">Resend API Key</label>
+                                <input type="password" id="cfgResendKey" class="field-input" placeholder="re_xxxxxxxxxxxxxxxxxxxx">
+                                <p class="field-help">Obtain your API Key from your Resend dashboard at <strong>resend.com/api-keys</strong>.</p>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label" for="cfgSenderEmail">Sender Email (From)</label>
+                                <input type="text" id="cfgSenderEmail" class="field-input" placeholder="Weisdom Design Build &lt;onboarding@resend.dev&gt;">
+                                <p class="field-help">Use <strong>onboarding@resend.dev</strong> for testing, or your verified domain sender (e.g. <strong>connect@weisdom.in</strong>).</p>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label" for="cfgAdminEmail">Admin Notification Recipient (To)</label>
+                                <input type="email" id="cfgAdminEmail" class="field-input" placeholder="info@weisdom.in">
+                                <p class="field-help">Where lead alerts and appointment notifications are immediately delivered.</p>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label" for="cfgWorkerUrl">Optional Cloudflare Worker Proxy URL</label>
+                                <input type="url" id="cfgWorkerUrl" class="field-input" placeholder="https://weisdom-mailer.workers.dev">
+                                <p class="field-help">Optional: Leave empty to dispatch directly via Resend API, or paste your deployed Cloudflare Worker URL.</p>
+                            </div>
+
+                            <div style="display: flex; gap: 12px; margin-top: 10px;">
+                                <button type="submit" class="btn-action btn-action-primary">Save Configuration</button>
+                                <button type="button" class="btn-action" id="btnTestEmail">Send Test Email</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- VIEW 3: CRM INTEGRATION -->
+                <section class="view-section" id="view-crm">
+                    <div class="view-header">
+                        <span class="view-tag">Webhooks</span>
+                        <h1 class="view-title">CRM &amp; ERP Webhook Integration</h1>
+                        <p class="view-desc">Stream incoming leads directly into Zoho CRM, Salesforce, HubSpot, or Zapier.</p>
+                    </div>
+
+                    <div class="card-box">
+                        <h3 class="card-box-title" style="margin-bottom: 20px;">CRM Webhook Endpoint</h3>
+                        <form id="crmConfigForm" class="form-grid">
+                            <div class="field-group">
+                                <label class="field-label" for="cfgCrmWebhook">Webhook URL</label>
+                                <input type="url" id="cfgCrmWebhook" class="field-input" placeholder="https://hook.eu1.make.com/... or https://crm.zoho.in/...">
+                                <p class="field-help">Every verified lead and brochure download will automatically POST a JSON payload to this endpoint.</p>
+                            </div>
+
+                            <div style="display: flex; gap: 12px; margin-top: 10px;">
+                                <button type="submit" class="btn-action btn-action-primary">Save CRM Webhook</button>
+                                <button type="button" class="btn-action" id="btnTestWebhook">Test Webhook Payload</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- VIEW 4: DPDP & SECURITY -->
+                <section class="view-section" id="view-dpdp">
+                    <div class="view-header">
+                        <span class="view-tag">Compliance</span>
+                        <h1 class="view-title">DPDP Act 2023 &amp; Console Security</h1>
+                        <p class="view-desc">Review compliance logs and configure your admin security credentials.</p>
+                    </div>
+
+                    <div class="card-box">
+                        <h3 class="card-box-title" style="margin-bottom: 16px;">DPDP Act (India) Compliance Summary</h3>
+                        <p style="font-size: 13.5px; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px;">
+                            Under the <strong>Digital Personal Data Protection (DPDP) Act 2023</strong>:
+                        </p>
+                        <ul style="font-size: 13px; color: var(--text); padding-left: 20px; line-height: 1.8; margin-bottom: 20px;">
+                            <li>✓ Explicit, granular consent is obtained before collecting visitor contact information.</li>
+                            <li>✓ Checkboxes are <strong>unchecked by default</strong> (no pre-tick / passive opt-ins).</li>
+                            <li>✓ Site visit bookings require two-step <strong>Email OTP verification</strong> to ensure identity validation.</li>
+                            <li>✓ Consent timestamps and lead sources are recorded in every submission.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-box">
+                        <h3 class="card-box-title" style="margin-bottom: 20px;">Change Admin Console PIN</h3>
+                        <form id="pinChangeForm" class="form-grid">
+                            <div class="field-group">
+                                <label class="field-label" for="cfgNewPin">New PIN or Password</label>
+                                <input type="password" id="cfgNewPin" class="field-input" placeholder="Enter new PIN" required>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn-action btn-action-primary">Update Admin PIN</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/mailer.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            const PIN_STORAGE_KEY = 'weisdom_admin_pin';
+            const DEFAULT_PIN = 'weisdom2026';
+
+            function getSavedPin() {
+                return localStorage.getItem(PIN_STORAGE_KEY) || DEFAULT_PIN;
+            }
+
+            // ── Auth Handling ───────────────────────────────────────────────
+            const lockScreen = document.getElementById('wsLockScreen');
+            const adminApp = document.getElementById('adminApp');
+            const lockInput = document.getElementById('wsLockInput');
+            const lockBtn = document.getElementById('wsLockBtn');
+            const lockError = document.getElementById('wsLockError');
+            const logoutBtn = document.getElementById('wsLogoutBtn');
+
+            function unlock() {
+                const val = lockInput.value.trim();
+                const expected = getSavedPin();
+                if (val === expected) {
+                    sessionStorage.setItem('weisdom_auth', '1');
+                    lockScreen.style.display = 'none';
+                    adminApp.style.display = 'block';
+                    loadLeads();
+                    loadConfig();
+                } else {
+                    lockError.style.display = 'block';
+                    lockInput.focus();
+                    lockInput.select();
+                }
+            }
+
+            lockBtn.addEventListener('click', unlock);
+            lockInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') unlock();
+            });
+
+            logoutBtn.addEventListener('click', () => {
+                sessionStorage.removeItem('weisdom_auth');
+                adminApp.style.display = 'none';
+                lockScreen.style.display = 'flex';
+                lockInput.value = '';
+                lockError.style.display = 'none';
+            });
+
+            // Auto-unlock if authenticated in current session
+            if (sessionStorage.getItem('weisdom_auth') === '1') {
+                lockScreen.style.display = 'none';
+                adminApp.style.display = 'block';
+                loadLeads();
+                loadConfig();
+            }
+
+            // ── Navigation Views ────────────────────────────────────────────
+            const navBtns = document.querySelectorAll('.nav-btn');
+            const views = document.querySelectorAll('.view-section');
+
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetView = btn.getAttribute('data-view');
+                    navBtns.forEach(b => b.classList.remove('active'));
+                    views.forEach(v => v.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    const el = document.getElementById('view-' + targetView);
+                    if (el) el.classList.add('active');
+                });
+            });
+
+            // ── Leads Management ───────────────────────────────────────────
+            let allLeads = [];
+            let currentFilter = 'all';
+
+            function loadLeads() {
+                try {
+                    allLeads = JSON.parse(localStorage.getItem('weisdom_leads') || '[]');
+                } catch (e) {
+                    allLeads = [];
+                }
+                updateStats();
+                renderTable();
+            }
+
+            function updateStats() {
+                const total = allLeads.length;
+                const visits = allLeads.filter(l => l.type === 'site_visit').length;
+                const brochures = allLeads.filter(l => l.type === 'brochure_download').length;
+
+                document.getElementById('statTotalLeads').textContent = total;
+                document.getElementById('statSiteVisits').textContent = visits;
+                document.getElementById('statBrochures').textContent = brochures;
+
+                const cfg = window.WeisdomMailer ? window.WeisdomMailer.getConfig() : {};
+                const st = document.getElementById('statMailerStatus');
+                if (cfg.resend_api_key) {
+                    st.innerHTML = '<span style="color:var(--success);">✓ Configured</span>';
+                } else {
+                    st.innerHTML = '<span style="color:#dca028;">! Test Mode</span>';
+                }
+            }
+
+            function renderTable() {
+                const tbody = document.getElementById('leadsTableBody');
+                const empty = document.getElementById('emptyLeadsState');
+                tbody.innerHTML = '';
+
+                let filtered = allLeads;
+                if (currentFilter === 'visit') {
+                    filtered = allLeads.filter(l => l.type === 'site_visit');
+                } else if (currentFilter === 'brochure') {
+                    filtered = allLeads.filter(l => l.type === 'brochure_download');
+                }
+
+                if (filtered.length === 0) {
+                    empty.style.display = 'block';
+                    return;
+                }
+                empty.style.display = 'none';
+
+                filtered.forEach(lead => {
+                    const tr = document.createElement('tr');
+                    const dateFormatted = lead.created_at ? new Date(lead.created_at).toLocaleString() : 'Recent';
+                    const isVisit = lead.type === 'site_visit';
+                    const typeBadge = isVisit 
+                        ? '<span class="badge-type badge-visit">Site Visit</span>' 
+                        : '<span class="badge-type badge-brochure">Brochure</span>';
+                    
+                    const scheduleInfo = isVisit 
+                        ? `<strong>${lead.visit_date}</strong> (${lead.visit_time})${lead.notes ? '<br><small style="color:var(--muted)">' + lead.notes + '</small>' : ''}`
+                        : 'Instant PDF Download';
+
+                    const otpStatus = isVisit && lead.otp_verified
+                        ? '<span class="badge-verified">✓ Verified OTP</span>'
+                        : (isVisit ? '<span style="color:#e05252">Pending</span>' : '<span style="color:var(--muted)">N/A</span>');
+
+                    tr.innerHTML = `
+                        <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim);">${dateFormatted}</td>
+                        <td>${typeBadge}</td>
+                        <td><strong>${lead.name || 'Anonymous'}</strong></td>
+                        <td>
+                            <a href="mailto:${lead.email}" style="color:var(--accent);text-decoration:none;">${lead.email}</a><br>
+                            <a href="tel:${lead.phone}" style="color:var(--text-dim);text-decoration:none;">${lead.phone}</a>
+                        </td>
+                        <td>${lead.project || 'Ample Living'}</td>
+                        <td>${scheduleInfo}</td>
+                        <td><span style="color:var(--success);">✓ Granted</span></td>
+                        <td>${otpStatus}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // Filters
+            document.getElementById('btnFilterAll').addEventListener('click', () => { currentFilter = 'all'; renderTable(); });
+            document.getElementById('btnFilterVisits').addEventListener('click', () => { currentFilter = 'visit'; renderTable(); });
+            document.getElementById('btnFilterBrochures').addEventListener('click', () => { currentFilter = 'brochure'; renderTable(); });
+
+            // Clear Leads
+            document.getElementById('btnClearLeads').addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all leads from this browser ledger?')) {
+                    localStorage.removeItem('weisdom_leads');
+                    loadLeads();
+                }
+            });
+
+            // Export to CSV
+            document.getElementById('btnExportCsv').addEventListener('click', () => {
+                if (allLeads.length === 0) {
+                    alert('No leads to export.');
+                    return;
+                }
+                const headers = ['ID', 'Type', 'Name', 'Email', 'Phone', 'Project', 'Visit Date', 'Visit Time', 'Notes', 'DPDP Consent', 'OTP Verified', 'Created At'];
+                const rows = allLeads.map(l => [
+                    l.id || '',
+                    l.type || '',
+                    `"${(l.name || '').replace(/"/g, '""')}"`,
+                    l.email || '',
+                    l.phone || '',
+                    l.project || '',
+                    l.visit_date || '',
+                    l.visit_time || '',
+                    `"${(l.notes || '').replace(/"/g, '""')}"`,
+                    l.dpdp_consent ? 'YES' : 'NO',
+                    l.otp_verified ? 'YES' : 'NO',
+                    l.created_at || ''
+                ]);
+
+                const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement('a');
+                link.setAttribute('href', encodedUri);
+                link.setAttribute('download', `weisdom_leads_${new Date().toISOString().split('T')[0]}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+
+            // ── API & Settings Handling ─────────────────────────────────────
+            function loadConfig() {
+                if (!window.WeisdomMailer) return;
+                const cfg = window.WeisdomMailer.getConfig();
+                document.getElementById('cfgResendKey').value = cfg.resend_api_key || '';
+                document.getElementById('cfgSenderEmail').value = cfg.sender_email || '';
+                document.getElementById('cfgAdminEmail').value = cfg.admin_email || '';
+                document.getElementById('cfgWorkerUrl').value = cfg.worker_url || '';
+                document.getElementById('cfgCrmWebhook').value = cfg.crm_webhook_url || '';
+            }
+
+            document.getElementById('resendConfigForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!window.WeisdomMailer) return;
+                const cfg = {
+                    resend_api_key: document.getElementById('cfgResendKey').value.trim(),
+                    sender_email: document.getElementById('cfgSenderEmail').value.trim(),
+                    admin_email: document.getElementById('cfgAdminEmail').value.trim(),
+                    worker_url: document.getElementById('cfgWorkerUrl').value.trim()
+                };
+                window.WeisdomMailer.saveConfig(cfg);
+                alert('Resend configuration saved successfully!');
+                updateStats();
+            });
+
+            document.getElementById('btnTestEmail').addEventListener('click', async () => {
+                const email = prompt('Enter recipient email for Resend connection test:', document.getElementById('cfgAdminEmail').value);
+                if (!email) return;
+                if (!window.WeisdomMailer) return;
+                const res = await window.WeisdomMailer.testConnection(email);
+                if (res.simulated) {
+                    alert('Mailer is running in Local Test Mode (No Resend API Key configured yet). Please enter your Resend API Key to send live emails.');
+                } else if (res.success) {
+                    alert('Test email successfully sent to ' + email + '!');
+                } else {
+                    alert('Failed to send test email. Please check your Resend API key and verified sender domain.');
+                }
+            });
+
+            document.getElementById('crmConfigForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!window.WeisdomMailer) return;
+                window.WeisdomMailer.saveConfig({
+                    crm_webhook_url: document.getElementById('cfgCrmWebhook').value.trim()
+                });
+                alert('CRM Webhook configuration saved!');
+            });
+
+            document.getElementById('btnTestWebhook').addEventListener('click', async () => {
+                const url = document.getElementById('cfgCrmWebhook').value.trim();
+                if (!url) {
+                    alert('Please enter a Webhook URL first.');
+                    return;
+                }
+                try {
+                    await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            event: 'test_ping',
+                            message: 'Weisdom Design Build Webhook Test',
+                            timestamp: new Date().toISOString()
+                        }),
+                        mode: 'no-cors'
+                    });
+                    alert('Test webhook payload dispatched to ' + url);
+                } catch (e) {
+                    alert('Webhook dispatch failed: ' + e.message);
+                }
+            });
+
+            // PIN Change
+            document.getElementById('pinChangeForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newPin = document.getElementById('cfgNewPin').value.trim();
+                if (newPin.length < 4) {
+                    alert('PIN must be at least 4 characters long.');
+                    return;
+                }
+                localStorage.setItem(PIN_STORAGE_KEY, newPin);
+                alert('Admin PIN updated successfully!');
+                document.getElementById('cfgNewPin').value = '';
+            });
+
+        })();
+    </script>
+</body>
+</html>
