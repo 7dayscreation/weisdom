@@ -21,3 +21,7 @@ ehthumbs_vista.db
 *.log
 temp_runner.php
 
+# PHP Backup
+_php_backup/
+_php_backup.zip
+
