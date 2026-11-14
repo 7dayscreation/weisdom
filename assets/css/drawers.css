@@ -729,3 +729,91 @@
     color: #f0c36d;
     font-weight: 600;
 }
+
+/* ── Connect Page Highlighted Action Box (Below Google Map) ──────────── */
+.ws-connect-cta {
+    background: #fafafb !important;
+    border: 1px solid #e2e2e8 !important;
+    border-radius: 4px !important;
+    padding: 44px 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 36px !important;
+    flex-wrap: wrap !important;
+    box-shadow: none !important;
+    transition: border-color 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+.ws-connect-cta:hover {
+    border-color: #cfcfd8 !important;
+}
+
+.ws-connect-cta-content {
+    flex: 1 1 360px !important;
+    min-width: 0 !important;
+}
+
+.ws-connect-cta-tag {
+    display: block !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    color: #7b7b85 !important;
+    margin-bottom: 8px !important;
+}
+
+.ws-connect-cta-title {
+    margin: 0 0 10px 0 !important;
+    font-size: 26px !important;
+    font-weight: 600 !important;
+    color: #111115 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.01em !important;
+}
+
+.ws-connect-cta-desc {
+    margin: 0 !important;
+    color: #5d5d6c !important;
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+    max-width: 580px !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.ws-connect-cta-actions {
+    display: flex !important;
+    gap: 14px !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+}
+
+.ws-connect-cta-actions .sr-button {
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+}
+
+@media (max-width: 768px) {
+    .ws-connect-cta {
+        padding: 30px 22px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 22px !important;
+    }
+    .ws-connect-cta-actions {
+        width: 100% !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    .ws-connect-cta-actions .sr-button {
+        width: 100% !important;
+        text-align: center !important;
+    }
+}
