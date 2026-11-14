@@ -1,0 +1,385 @@
+/* ==========================================================================
+   Weisdom Design Build - Off-Canvas Drawers & Modal Forms
+   Brochure Download & Site Visit Schedule
+   ========================================================================== */
+
+/* ── Overlay Backdrop ─────────────────────────────────────────────────── */
+.ws-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease;
+}
+
+.ws-drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ── Drawer Container (Slide-out from Right) ─────────────────────────── */
+.ws-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 480px;
+    max-width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background: #0d0d10;
+    color: #e5e5e7;
+    z-index: 99999;
+    box-shadow: -15px 0 45px rgba(0, 0, 0, 0.6);
+    transform: translateX(100%);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: "futura-pt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ws-drawer.active {
+    transform: translateX(0);
+}
+
+/* ── Header ───────────────────────────────────────────────────────────── */
+.ws-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 35px 20px 35px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    position: relative;
+}
+
+.ws-drawer-title-group {
+    padding-right: 20px;
+}
+
+.ws-drawer-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8c8c96;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.ws-drawer-title {
+    font-size: 24px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+}
+
+.ws-drawer-sub {
+    font-size: 13px;
+    color: #90909c;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ── Close Button (Minimalist X) ──────────────────────────────────────── */
+.ws-drawer-close {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.ws-drawer-close:hover {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+    transform: rotate(90deg);
+}
+
+.ws-drawer-close svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+/* ── Body (Scrollable Form Area) ──────────────────────────────────────── */
+.ws-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px 35px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ws-drawer-body::-webkit-scrollbar {
+    width: 5px;
+}
+.ws-drawer-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+
+/* ── Form Controls & Fieldsets ────────────────────────────────────────── */
+.ws-form-group {
+    margin-bottom: 22px;
+    position: relative;
+}
+
+.ws-form-row {
+    display: flex;
+    gap: 14px;
+}
+
+.ws-form-row .ws-form-group {
+    flex: 1;
+}
+
+.ws-label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0a0ab;
+    margin-bottom: 7px;
+    font-weight: 500;
+}
+
+.ws-label .required {
+    color: #e05b5b;
+    margin-left: 3px;
+}
+
+.ws-input,
+.ws-select,
+.ws-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    color: #ffffff;
+    padding: 13px 15px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.25s ease, background 0.25s ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.ws-input::placeholder,
+.ws-textarea::placeholder {
+    color: #5d5d68;
+}
+
+.ws-input:focus,
+.ws-select:focus,
+.ws-textarea:focus {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.ws-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 18px;
+    cursor: pointer;
+}
+
+.ws-select option {
+    background: #141418;
+    color: #ffffff;
+}
+
+.ws-textarea {
+    min-height: 85px;
+    resize: vertical;
+}
+
+/* Error State */
+.ws-form-group.has-error .ws-input,
+.ws-form-group.has-error .ws-select,
+.ws-form-group.has-error .ws-textarea {
+    border-color: #e05b5b;
+    background: rgba(224, 91, 91, 0.05);
+}
+
+.ws-error-msg {
+    display: none;
+    font-size: 11px;
+    color: #e05b5b;
+    margin-top: 5px;
+}
+
+.ws-form-group.has-error .ws-error-msg {
+    display: block;
+}
+
+/* Checkbox (Consent) */
+.ws-checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 5px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    color: #8c8c96;
+    line-height: 1.45;
+}
+
+.ws-checkbox-group input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: #ffffff;
+    cursor: pointer;
+}
+
+/* ── Submit Button & Actions ─────────────────────────────────────────── */
+.ws-btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 24px;
+    background: #ffffff;
+    color: #000000 !important;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+    position: relative;
+}
+
+.ws-btn-submit:hover {
+    background: #e0e0e4;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+.ws-btn-submit:disabled,
+.ws-btn-submit.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Spinner inside button */
+.ws-btn-submit .ws-spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-top-color: #000000;
+    border-radius: 50%;
+    animation: ws-spin 0.7s infinite linear;
+    margin-right: 8px;
+}
+
+.ws-btn-submit.loading .ws-spinner {
+    display: inline-block;
+}
+
+@keyframes ws-spin {
+    to { transform: rotate(360deg); }
+}
+
+.ws-privacy-note {
+    font-size: 11px;
+    color: #666672;
+    text-align: center;
+    margin-top: 15px;
+    line-height: 1.4;
+}
+
+/* ── Success Screen ───────────────────────────────────────────────────── */
+.ws-drawer-success {
+    display: none;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.ws-success-ring {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(77, 184, 119, 0.1);
+    border: 1px solid rgba(77, 184, 119, 0.3);
+    color: #4db877;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 24px auto;
+}
+
+.ws-success-title {
+    font-size: 22px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+}
+
+.ws-success-desc {
+    font-size: 14px;
+    color: #9ca3af;
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+}
+
+.ws-btn-done {
+    display: inline-block;
+    padding: 12px 30px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    border-radius: 4px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.ws-btn-done:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* ── Responsive Mobile ────────────────────────────────────────────────── */
+@media (max-width: 576px) {
+    .ws-drawer {
+        width: 100%;
+    }
+    .ws-drawer-header {
+        padding: 24px 22px 18px 22px;
+    }
+    .ws-drawer-body {
+        padding: 22px;
+    }
+    .ws-form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
