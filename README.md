@@ -23,11 +23,14 @@ A high-performance, SEO-optimized static website for **Weisdom Design Build**, r
 - **Security Headers**: Managed automatically via `_headers`
 - **Redirects**: Managed via `_redirects`
 
-## Static Generation
+## PHP Backup & Static Regeneration
 
-If you make modifications to any PHP templates or `config.php`, you can regenerate all static HTML pages instantly:
+All original PHP source files are safely backed up in `_php_backup/` (ignored by Git for a clean static deployment).
+
+If you ever wish to make modifications to the PHP templates and regenerate the static HTML pages:
 
 ```bash
+cd _php_backup
 php generate_static.php
 ```
 
