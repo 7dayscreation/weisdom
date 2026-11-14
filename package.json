@@ -1,0 +1,18 @@
+{
+  "name": "weisdom",
+  "version": "1.0.0",
+  "description": "Weisdom Design Build - Static Website",
+  "main": "index.html",
+  "scripts": {
+    "optimize": "node scripts/convert-images.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/7dayscreation/weisdom.git"
+  },
+  "author": "7dayscreation",
+  "license": "ISC",
+  "dependencies": {
+    "sharp": "^0.33.5"
+  }
+}

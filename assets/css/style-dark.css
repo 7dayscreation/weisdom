@@ -279,7 +279,7 @@ select {
 	-webkit-border-radius:0px;
 	border-radius: 2px;
 	min-width: 120px;
-	background-image:url(../assets/select-arrow.png);
+	background-image:url(../assets/select-arrow.webp);
   	background-position: center right;
 	background-repeat: no-repeat;
 	-webkit-background-size:20px 6px;
@@ -287,7 +287,7 @@ select {
 	-o-background-size:20px 6px;
 	background-size:20px 6px;
 	}
-	.text-light select { color: #ffffff; border-color: #fa4d5a; background-image:url(../assets/select-arrow-light.png); }
+	.text-light select { color: #ffffff; border-color: #fa4d5a; background-image:url(../assets/select-arrow-light.webp); }
 	
 select option {
 	cursor: pointer;
