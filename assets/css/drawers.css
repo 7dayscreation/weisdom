@@ -1,7 +1,7 @@
 /* ==========================================================================
    Weisdom Design Build - Off-Canvas Drawers & Modal Forms
    Clean Architectural Theme: White Background, Gray Text, Masvis & Futura Fonts
-   Strictly Zero Drop Shadow
+   Strictly Zero Drop Shadow | Perfect Form Alignment & Polished Font Scaling
    ========================================================================== */
 
 /* ── Overlay Backdrop ─────────────────────────────────────────────────── */
@@ -30,11 +30,11 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 480px;
+    width: 500px;
     max-width: 100%;
     height: 100vh;
     height: 100dvh;
-    background: #ffffff;
+    background: #ffffff !important;
     color: #4a4a52;
     z-index: 99999;
     box-shadow: none !important;
@@ -46,6 +46,7 @@
     overflow: hidden;
     font-family: "futura-pt", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 300;
+    box-sizing: border-box;
 }
 
 .ws-drawer.active {
@@ -55,73 +56,78 @@
 /* ── Header ───────────────────────────────────────────────────────────── */
 .ws-drawer-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    padding: 35px 40px 24px 40px;
+    padding: 35px 35px 22px 35px;
     border-bottom: 1px solid #eeeeee;
     background: #ffffff;
     position: relative;
+    box-sizing: border-box;
 }
 
 .ws-drawer-title-group {
     padding-right: 20px;
+    flex: 1;
 }
 
 .ws-drawer-tag {
-    display: inline-block;
-    font-size: 11px;
+    display: block;
+    font-size: 12px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #888892;
+    color: #7b7b85;
     margin-bottom: 6px;
     font-weight: 400;
 }
 
 .ws-drawer-title {
-    font-family: "Masvis", sans-serif;
-    font-size: 26px;
-    font-weight: 400;
-    color: #1a1a1e;
-    margin: 0 0 6px 0;
-    letter-spacing: 0.02em;
-    line-height: 1.25;
+    font-family: "Masvis", sans-serif !important;
+    font-size: 30px !important;
+    font-weight: 400 !important;
+    color: #111115 !important;
+    margin: 0 0 6px 0 !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.25 !important;
 }
 
 .ws-drawer-sub {
-    font-size: 13px;
-    color: #6c6c76;
+    font-size: 14px;
+    color: #666672;
     margin: 0;
-    line-height: 1.45;
+    line-height: 1.5;
+    font-weight: 300;
 }
 
 /* ── Close Button (Minimalist Clean X) ────────────────────────────────── */
 .ws-drawer-close {
-    background: #ffffff;
-    border: 1px solid #d8d8de;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #333339;
-    cursor: pointer;
+    background: #ffffff !important;
+    border: 1px solid #d5d5dc !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #222228 !important;
+    cursor: pointer !important;
     box-shadow: none !important;
-    transition: all 0.25s ease;
-    flex-shrink: 0;
-    padding: 0;
+    transition: all 0.25s ease !important;
+    flex-shrink: 0 !important;
+    padding: 0 !important;
+    margin-top: 4px !important;
 }
 
 .ws-drawer-close:hover {
-    background: #111115;
-    color: #ffffff;
-    border-color: #111115;
+    background: #111115 !important;
+    color: #ffffff !important;
+    border-color: #111115 !important;
     transform: rotate(90deg);
 }
 
 .ws-drawer-close svg {
-    width: 13px;
-    height: 13px;
+    width: 14px;
+    height: 14px;
     fill: currentColor;
 }
 
@@ -129,8 +135,9 @@
 .ws-drawer-body {
     flex: 1;
     overflow-y: auto;
-    padding: 35px 40px;
+    padding: 30px 35px 35px 35px;
     background: #ffffff;
+    box-sizing: border-box;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -142,100 +149,143 @@
     border-radius: 2px;
 }
 
-/* ── Form Controls & Fieldsets ────────────────────────────────────────── */
+/* ── Form Controls & Fieldsets (Strict Alignment & Sizing Overrides) ─── */
+#ws-drawers-container form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .ws-form-group {
     margin-bottom: 22px;
     position: relative;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .ws-form-row {
     display: flex;
-    gap: 14px;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .ws-form-row .ws-form-group {
-    flex: 1;
+    flex: 1 1 50%;
+    min-width: 0;
+    width: 100%;
+    margin-bottom: 22px;
 }
 
 .ws-label {
     display: block;
-    font-size: 11px;
-    letter-spacing: 0.1em;
+    font-size: 12px !important;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #55555f;
-    margin-bottom: 7px;
+    color: #484852 !important;
+    margin-bottom: 8px !important;
     font-weight: 500;
+    font-family: "futura-pt", sans-serif;
+    line-height: 1.2;
 }
 
 .ws-label .required {
     color: #d94343;
-    margin-left: 2px;
+    margin-left: 3px;
+    font-weight: 600;
 }
 
-.ws-input,
-.ws-select,
-.ws-textarea {
-    width: 100%;
-    background: #fafafc;
-    border: 1px solid #dedee3;
-    border-radius: 2px;
-    color: #1f1f24;
-    padding: 12px 14px;
-    font-size: 14px;
-    font-family: inherit;
-    font-weight: 300;
+/* Override all parent style.css inputs (which forced height: 22px & max-width: calc(100% - 20px)) */
+#ws-drawers-container input.ws-input,
+#ws-drawers-container select.ws-select,
+#ws-drawers-container textarea.ws-textarea {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    height: 50px !important;
+    line-height: 50px !important;
+    background: #fbfbfc !important;
+    border: 1px solid #dcdce2 !important;
+    border-radius: 2px !important;
+    color: #1a1a20 !important;
+    padding: 0 15px !important;
+    font-size: 15px !important;
+    font-family: "futura-pt", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-weight: 400 !important;
     box-shadow: none !important;
-    transition: border-color 0.2s ease, background 0.2s ease;
-    outline: none;
-    box-sizing: border-box;
+    transition: border-color 0.2s ease, background 0.2s ease !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
 }
 
-.ws-input::placeholder,
-.ws-textarea::placeholder {
-    color: #9c9ca6;
+#ws-drawers-container input.ws-input::placeholder,
+#ws-drawers-container textarea.ws-textarea::placeholder {
+    color: #92929e !important;
+    font-size: 14px !important;
+    opacity: 1 !important;
 }
 
-.ws-input:focus,
-.ws-select:focus,
-.ws-textarea:focus {
-    border-color: #111115;
-    background: #ffffff;
+#ws-drawers-container input.ws-input:focus,
+#ws-drawers-container select.ws-select:focus,
+#ws-drawers-container textarea.ws-textarea:focus {
+    border-color: #111115 !important;
+    background: #ffffff !important;
 }
 
-.ws-select {
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23555555'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    background-size: 18px;
-    cursor: pointer;
-    background-color: #fafafc;
+/* Custom Select Dropdown */
+#ws-drawers-container select.ws-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23444444'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 14px center !important;
+    background-size: 18px !important;
+    cursor: pointer !important;
+    background-color: #fbfbfc !important;
+    padding-right: 38px !important;
 }
 
-.ws-select option {
-    background: #ffffff;
-    color: #1f1f24;
+#ws-drawers-container select.ws-select option {
+    background: #ffffff !important;
+    color: #1a1a20 !important;
+    padding: 10px !important;
 }
 
-.ws-textarea {
-    min-height: 80px;
-    resize: vertical;
+/* Custom Textarea */
+#ws-drawers-container textarea.ws-textarea {
+    height: auto !important;
+    min-height: 90px !important;
+    line-height: 1.5 !important;
+    padding: 12px 15px !important;
+    resize: vertical !important;
+}
+
+/* Date Input Specifics */
+#ws-drawers-container input[type="date"].ws-input {
+    line-height: normal !important;
+    padding-top: 13px !important;
+    padding-bottom: 13px !important;
 }
 
 /* Error State */
-.ws-form-group.has-error .ws-input,
-.ws-form-group.has-error .ws-select,
-.ws-form-group.has-error .ws-textarea {
-    border-color: #d94343;
-    background: #fff8f8;
+.ws-form-group.has-error input.ws-input,
+.ws-form-group.has-error select.ws-select,
+.ws-form-group.has-error textarea.ws-textarea {
+    border-color: #d94343 !important;
+    background: #fff8f8 !important;
 }
 
 .ws-error-msg {
     display: none;
-    font-size: 11px;
+    font-size: 12px;
     color: #d94343;
-    margin-top: 5px;
+    margin-top: 6px;
+    line-height: 1.3;
+    font-weight: 400;
 }
 
 .ws-form-group.has-error .ws-error-msg {
@@ -246,67 +296,83 @@
 .ws-checkbox-group {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    margin-top: 5px;
-    margin-bottom: 24px;
-    font-size: 12px;
-    color: #666670;
-    line-height: 1.45;
+    gap: 12px;
+    margin-top: 6px;
+    margin-bottom: 26px;
+    font-size: 13px;
+    color: #5d5d68;
+    line-height: 1.5;
+    box-sizing: border-box;
 }
 
-.ws-checkbox-group input[type="checkbox"] {
-    margin-top: 2px;
-    accent-color: #111115;
+#ws-drawers-container .ws-checkbox-group input[type="checkbox"] {
+    width: 17px !important;
+    height: 17px !important;
+    min-width: 17px !important;
+    max-width: 17px !important;
+    margin-top: 3px !important;
+    accent-color: #111115 !important;
+    cursor: pointer !important;
+}
+
+.ws-checkbox-group label {
     cursor: pointer;
+    margin: 0;
+    font-size: 13px;
+    color: #5d5d68;
 }
 
 /* ── Submit Button & Actions ─────────────────────────────────────────── */
-.ws-btn-submit {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 15px 24px;
-    background: #111115;
+#ws-drawers-container .ws-btn-submit {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 52px !important;
+    padding: 0 24px !important;
+    background: #111115 !important;
     color: #ffffff !important;
-    border: 1px solid #111115;
-    border-radius: 2px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    cursor: pointer;
+    border: 1px solid #111115 !important;
+    border-radius: 2px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
     box-shadow: none !important;
-    transition: background 0.25s ease, border-color 0.25s ease;
+    transition: background 0.25s ease, border-color 0.25s ease !important;
     text-decoration: none !important;
-    position: relative;
-    font-family: "futura-pt", sans-serif;
+    position: relative !important;
+    font-family: "futura-pt", sans-serif !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
 }
 
-.ws-btn-submit:hover {
-    background: #2c2c34;
-    border-color: #2c2c34;
+#ws-drawers-container .ws-btn-submit:hover {
+    background: #2a2a32 !important;
+    border-color: #2a2a32 !important;
     color: #ffffff !important;
 }
 
-.ws-btn-submit:disabled,
-.ws-btn-submit.loading {
-    opacity: 0.65;
-    cursor: not-allowed;
-    background: #55555f;
-    border-color: #55555f;
+#ws-drawers-container .ws-btn-submit:disabled,
+#ws-drawers-container .ws-btn-submit.loading {
+    opacity: 0.65 !important;
+    cursor: not-allowed !important;
+    background: #55555f !important;
+    border-color: #55555f !important;
 }
 
 /* Spinner inside button */
 .ws-btn-submit .ws-spinner {
     display: none;
-    width: 14px;
-    height: 14px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    width: 15px;
+    height: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
     border-top-color: #ffffff;
     border-radius: 50%;
     animation: ws-spin 0.7s infinite linear;
-    margin-right: 8px;
+    margin-right: 10px;
 }
 
 .ws-btn-submit.loading .ws-spinner {
@@ -318,23 +384,24 @@
 }
 
 .ws-privacy-note {
-    font-size: 11px;
+    font-size: 12px;
     color: #8c8c96;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 14px;
     line-height: 1.4;
+    font-weight: 300;
 }
 
 /* ── Success Screen ───────────────────────────────────────────────────── */
 .ws-drawer-success {
     display: none;
     text-align: center;
-    padding: 45px 15px;
+    padding: 50px 20px;
 }
 
 .ws-success-ring {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: #f2faf5;
     border: 1px solid #b7e3ca;
@@ -342,29 +409,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    margin: 0 auto 22px auto;
+    font-size: 26px;
+    margin: 0 auto 24px auto;
     box-shadow: none !important;
 }
 
 .ws-success-title {
-    font-family: "Masvis", sans-serif;
-    font-size: 24px;
-    font-weight: 400;
-    color: #1a1a1e;
-    margin: 0 0 10px 0;
+    font-family: "Masvis", sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 400 !important;
+    color: #111115 !important;
+    margin: 0 0 12px 0 !important;
 }
 
 .ws-success-desc {
-    font-size: 13px;
-    color: #5d5d68;
+    font-size: 14px;
+    color: #555560;
     line-height: 1.6;
-    margin: 0 0 28px 0;
+    margin: 0 0 32px 0;
 }
 
 .ws-btn-done {
     display: inline-block;
-    padding: 12px 32px;
+    padding: 13px 36px;
     background: #ffffff;
     border: 1px solid #111115;
     color: #111115;
@@ -397,5 +464,11 @@
     .ws-form-row {
         flex-direction: column;
         gap: 0;
+    }
+    .ws-form-row .ws-form-group {
+        flex: 1 1 100%;
+    }
+    .ws-drawer-title {
+        font-size: 24px !important;
     }
 }
