@@ -735,15 +735,16 @@
     background: #fafafb !important;
     border: 1px solid #e2e2e8 !important;
     border-radius: 4px !important;
-    padding: 44px 50px !important;
+    padding: 42px 48px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     gap: 36px !important;
-    flex-wrap: wrap !important;
     box-shadow: none !important;
-    transition: border-color 0.3s ease !important;
     box-sizing: border-box !important;
+    width: 100% !important;
+    margin: 0 !important;
+    transition: border-color 0.3s ease !important;
 }
 
 .ws-connect-cta:hover {
@@ -751,8 +752,9 @@
 }
 
 .ws-connect-cta-content {
-    flex: 1 1 360px !important;
+    flex: 1 1 auto !important;
     min-width: 0 !important;
+    max-width: 580px !important;
 }
 
 .ws-connect-cta-tag {
@@ -768,7 +770,7 @@
 
 .ws-connect-cta-title {
     margin: 0 0 10px 0 !important;
-    font-size: 26px !important;
+    font-size: 25px !important;
     font-weight: 600 !important;
     color: #111115 !important;
     line-height: 1.3 !important;
@@ -780,40 +782,135 @@
     color: #5d5d6c !important;
     font-size: 14.5px !important;
     line-height: 1.6 !important;
-    max-width: 580px !important;
     font-family: 'Inter', sans-serif !important;
 }
 
 .ws-connect-cta-actions {
     display: flex !important;
+    flex-direction: row !important;
     gap: 14px !important;
-    flex-wrap: wrap !important;
     align-items: center !important;
+    justify-content: flex-end !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
 }
 
+/* Base Button Styles for the CTA */
 .ws-connect-cta-actions .sr-button {
-    margin: 0 !important;
+    box-sizing: border-box !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    line-height: 52px !important;
+    padding: 0 32px !important;
+    margin: 0 !important;
+    font-family: 'futura-pt', sans-serif !important;
+    font-size: 13px !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    border-radius: 2px !important;
     text-decoration: none !important;
     box-shadow: none !important;
+    transition: all 0.25s ease !important;
+    vertical-align: middle !important;
 }
 
-@media (max-width: 768px) {
+/* Primary Button (Schedule Visit) */
+.ws-connect-cta-actions .sr-button:not(.style-2) {
+    background: #111115 !important;
+    color: #ffffff !important;
+    border: 1px solid #111115 !important;
+}
+
+.ws-connect-cta-actions .sr-button:not(.style-2):hover {
+    background: #2b2b32 !important;
+    border-color: #2b2b32 !important;
+    color: #ffffff !important;
+}
+
+/* Secondary Button (Download Brochure) */
+.ws-connect-cta-actions .sr-button.style-2 {
+    background: transparent !important;
+    color: #111115 !important;
+    border: 1px solid #111115 !important;
+}
+
+.ws-connect-cta-actions .sr-button.style-2:hover {
+    background: #111115 !important;
+    border-color: #111115 !important;
+    color: #ffffff !important;
+}
+
+/* Tablet / Medium Screens (769px to 1024px) */
+@media (max-width: 1024px) {
     .ws-connect-cta {
-        padding: 30px 22px !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        gap: 22px !important;
+        gap: 26px !important;
+        padding: 36px 36px !important;
+    }
+    .ws-connect-cta-content {
+        max-width: 100% !important;
+        width: 100% !important;
     }
     .ws-connect-cta-actions {
         width: 100% !important;
+        justify-content: flex-start !important;
+        flex-wrap: wrap !important;
+        gap: 14px !important;
+    }
+    .ws-connect-cta-actions .sr-button {
+        flex: 1 1 200px !important;
+        max-width: 280px !important;
+        height: 50px !important;
+        min-height: 50px !important;
+        line-height: 50px !important;
+        padding: 0 20px !important;
+        font-size: 12.5px !important;
+    }
+}
+
+/* Mobile Screens (<= 768px) */
+@media (max-width: 768px) {
+    .ws-connect-cta {
+        padding: 30px 22px !important;
+        gap: 22px !important;
+        border-radius: 3px !important;
+    }
+    .ws-connect-cta-title {
+        font-size: 22px !important;
+        line-height: 1.3 !important;
+    }
+    .ws-connect-cta-desc {
+        font-size: 14px !important;
+        line-height: 1.55 !important;
+    }
+}
+
+/* Small Mobile Screens (<= 600px) - Clean Stacked Layout */
+@media (max-width: 600px) {
+    .ws-connect-cta {
+        padding: 26px 18px !important;
+        gap: 20px !important;
+    }
+    .ws-connect-cta-actions {
         flex-direction: column !important;
+        width: 100% !important;
         gap: 12px !important;
     }
     .ws-connect-cta-actions .sr-button {
         width: 100% !important;
-        text-align: center !important;
+        max-width: 100% !important;
+        flex: 1 1 100% !important;
+        height: 50px !important;
+        min-height: 50px !important;
+        line-height: 50px !important;
+        padding: 0 16px !important;
+        font-size: 12.5px !important;
+        letter-spacing: 0.08em !important;
     }
 }
